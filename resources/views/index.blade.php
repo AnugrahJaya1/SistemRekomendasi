@@ -168,22 +168,6 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>Ekonomi</th>
-                            <td>
-                                <input type="number" name="ekms1" min="0" max="100" required><br>
-                            </td>
-                            <td>
-                                <input type="number" name="ekms2" min="0" max="100" required><br>
-                            </td>
-                            <td>
-                                <input type="number" name="ekms3" min="0" max="100" required><br>
-                            </td>
-                            <td>
-                                <input type="number" name="ekms4" min="0" max="100" required><br>
-                            </td>
-                        </tr>
-
-                        <tr>
                             <th>Indonesia</th>
                             <td>
                                 <input type="number" name="inds1" min="0" max="100" required><br>
