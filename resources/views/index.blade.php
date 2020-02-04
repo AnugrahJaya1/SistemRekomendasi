@@ -57,83 +57,83 @@
                         <tr>
                             <th>Matematika</th>
                             <td>
-                                <input type="number" name="mtks1" min="0" max="100" required><br>
+                                <input type="number" name="mtk101" min="0" max="100" required><br>
                             </td>
                             <td>
-                                <input type="number" name="mtks2" min="0" max="100" required><br>
+                                <input type="number" name="mtk102" min="0" max="100" required><br>
                             </td>
                             <td>
-                                <input type="number" name="mtks3" min="0" max="100" required><br>
+                                <input type="number" name="mtk111" min="0" max="100" required><br>
                             </td>
                             <td>
-                                <input type="number" name="mtks4" min="0" max="100" required><br>
+                                <input type="number" name="mtk112" min="0" max="100" required><br>
                             </td>
                         </tr>
                         <tr>
                             <th>Inggris</th>
                             <td>
-                                <input type="number" name="ings1" min="0" max="100" required><br>
+                                <input type="number" name="ing101" min="0" max="100" required><br>
                             </td>
                             <td>
-                                <input type="number" name="ings2" min="0" max="100" required><br>
+                                <input type="number" name="ing102" min="0" max="100" required><br>
                             </td>
                             <td>
-                                <input type="number" name="ings3" min="0" max="100" required><br>
+                                <input type="number" name="ing111" min="0" max="100" required><br>
                             </td>
                             <td>
-                                <input type="number" name="ings4" min="0" max="100" required><br>
+                                <input type="number" name="ing112" min="0" max="100" required><br>
                             </td>
                         </tr>
                         <tr>
                             <th>Indonesia</th>
                             <td>
-                                <input type="number" name="inds1" min="0" max="100" required><br>
+                                <input type="number" name="ind101" min="0" max="100" required><br>
                             </td>
                             <td>
-                                <input type="number" name="inds2" min="0" max="100" required><br>
+                                <input type="number" name="inds102" min="0" max="100" required><br>
                             </td>
                             <td>
-                                <input type="number" name="inds3" min="0" max="100" required><br>
+                                <input type="number" name="ind111" min="0" max="100" required><br>
                             </td>
                             <td>
-                                <input type="number" name="inds4" min="0" max="100" required><br>
+                                <input type="number" name="ind112" min="0" max="100" required><br>
                             </td>
                         </tr>
                         <tr>
                             <th>Fisika</th>
                             <td>
-                                <input type="number" name="fsks1" min="0" max="100" required><br>
+                                <input type="number" name="fsk101" min="0" max="100" required><br>
                             </td>
                             <td>
-                                <input type="number" name="fsks2" min="0" max="100" required><br>
+                                <input type="number" name="fsks102" min="0" max="100" required><br>
                             </td>
                             <td>
-                                <input type="number" name="fsks3" min="0" max="100" required><br>
+                                <input type="number" name="fsk111" min="0" max="100" required><br>
                             </td>
                             <td>
-                                <input type="number" name="fsks4" min="0" max="100" required><br>
+                                <input type="number" name="fsk112" min="0" max="100" required><br>
                             </td>
                         </tr>
                         <tr>
                             <th>Kimia</th>
                             <td>
-                                <input type="number" name="kmas1" min="0" max="100" required><br>
+                                <input type="number" name="kma101" min="0" max="100" required><br>
                             </td>
                             <td>
-                                <input type="number" name="kmas2" min="0" max="100" required><br>
+                                <input type="number" name="kma102" min="0" max="100" required><br>
                             </td>
                             <td>
-                                <input type="number" name="kmas3" min="0" max="100" required><br>
+                                <input type="number" name="kma111" min="0" max="100" required><br>
                             </td>
                             <td>
-                                <input type="number" name="kmas4" min="0" max="100" required><br>
+                                <input type="number" name="kma112" min="0" max="100" required><br>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="4">
                                 <br>
                                 <div class="text-right">
-                                    <input type="submit" value="Submit" class="btn bg-success">
+                                    <input type="submit" value="Submit" name="btnIPA" class="btn bg-success">
                                 </div>
                                 <br>
                             </td>
@@ -163,59 +163,59 @@
                         <tr>
                             <th>Matematika</th>
                             <td>
-                                <input type="number" name="mtks1" min="0" max="100" required><br>
+                                <input type="number" name="mtk101" min="0" max="100" required><br>
                             </td>
                             <td>
-                                <input type="number" name="mtks2" min="0" max="100" required><br>
+                                <input type="number" name="mtk102" min="0" max="100" required><br>
                             </td>
                             <td>
-                                <input type="number" name="mtks3" min="0" max="100" required><br>
+                                <input type="number" name="mtk111" min="0" max="100" required><br>
                             </td>
                             <td>
-                                <input type="number" name="mtks4" min="0" max="100" required><br>
+                                <input type="number" name="mtk112" min="0" max="100" required><br>
                             </td>
                         </tr>
                         <tr>
                             <th>Inggris</th>
                             <td>
-                                <input type="number" name="ings1" min="0" max="100" required><br>
+                                <input type="number" name="ing101" min="0" max="100" required><br>
                             </td>
                             <td>
-                                <input type="number" name="ings2" min="0" max="100" required><br>
+                                <input type="number" name="ing102" min="0" max="100" required><br>
                             </td>
                             <td>
-                                <input type="number" name="ings3" min="0" max="100" required><br>
+                                <input type="number" name="ing111" min="0" max="100" required><br>
                             </td>
                             <td>
-                                <input type="number" name="ings4" min="0" max="100" required><br>
+                                <input type="number" name="ing112" min="0" max="100" required><br>
                             </td>
                         </tr>
                         <tr>
                             <th>Indonesia</th>
                             <td>
-                                <input type="number" name="inds1" min="0" max="100" required><br>
+                                <input type="number" name="ind101" min="0" max="100" required><br>
                             </td>
                             <td>
-                                <input type="number" name="inds2" min="0" max="100" required><br>
+                                <input type="number" name="ind102" min="0" max="100" required><br>
                             </td>
                             <td>
-                                <input type="number" name="inds3" min="0" max="100" required><br>
+                                <input type="number" name="ind111" min="0" max="100" required><br>
                             </td>
                             <td>
-                                <input type="number" name="inds4" min="0" max="100" required><br>
+                                <input type="number" name="ind112" min="0" max="100" required><br>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="4">
                                 <br>
                                 <div class="text-right">
-                                    <input type="submit" value="Submit" class="btn bg-success">
+                                    <input type="submit" value="Submit" name="btnIPS" class="btn bg-success">
                                 </div>
                                 <br>
                             </td>
                         </tr>
                     </table>
-                    <form>
+                <form>
             </div>
         </div>
     </div>
