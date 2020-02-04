@@ -44,11 +44,15 @@
                 <form action="" method="POST">
                     <table align="center" class="table table-striped">
                         <tr>
-                            <th>Mata Pelajaran</th>
+                            <th rowspan="2" style="vertical-align: middle;">Mata Pelajaran</th>
+                            <th colspan="2">Kelas X</th>
+                            <th colspan="2">Kelas XI</th>
+                        </tr>
+                        <tr>
                             <th>Semester 1</th>
                             <th>Semester 2</th>
-                            <th>Semester 3</th>
-                            <th>Semester 4</th>
+                            <th>Semester 1</th>
+                            <th>Semester 2</th>
                         </tr>
                         <tr>
                             <th>Matematika</th>
@@ -63,6 +67,36 @@
                             </td>
                             <td>
                                 <input type="number" name="mtks4" min="0" max="100" required><br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Inggris</th>
+                            <td>
+                                <input type="number" name="ings1" min="0" max="100" required><br>
+                            </td>
+                            <td>
+                                <input type="number" name="ings2" min="0" max="100" required><br>
+                            </td>
+                            <td>
+                                <input type="number" name="ings3" min="0" max="100" required><br>
+                            </td>
+                            <td>
+                                <input type="number" name="ings4" min="0" max="100" required><br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Indonesia</th>
+                            <td>
+                                <input type="number" name="inds1" min="0" max="100" required><br>
+                            </td>
+                            <td>
+                                <input type="number" name="inds2" min="0" max="100" required><br>
+                            </td>
+                            <td>
+                                <input type="number" name="inds3" min="0" max="100" required><br>
+                            </td>
+                            <td>
+                                <input type="number" name="inds4" min="0" max="100" required><br>
                             </td>
                         </tr>
                         <tr>
@@ -96,36 +130,6 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>Indonesia</th>
-                            <td>
-                                <input type="number" name="inds1" min="0" max="100" required><br>
-                            </td>
-                            <td>
-                                <input type="number" name="inds2" min="0" max="100" required><br>
-                            </td>
-                            <td>
-                                <input type="number" name="inds3" min="0" max="100" required><br>
-                            </td>
-                            <td>
-                                <input type="number" name="inds4" min="0" max="100" required><br>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Inggris</th>
-                            <td>
-                                <input type="number" name="ings1" min="0" max="100" required><br>
-                            </td>
-                            <td>
-                                <input type="number" name="ings2" min="0" max="100" required><br>
-                            </td>
-                            <td>
-                                <input type="number" name="ings3" min="0" max="100" required><br>
-                            </td>
-                            <td>
-                                <input type="number" name="ings4" min="0" max="100" required><br>
-                            </td>
-                        </tr>
-                        <tr>
                             <td colspan="4">
                                 <br>
                                 <div class="text-right">
@@ -146,11 +150,15 @@
                 <form method="POST">
                     <table align="center" class="table table-striped">
                         <tr>
-                            <th>Mata Pelajaran</th>
+                            <th rowspan="2" style="vertical-align: middle;">Mata Pelajaran</th>
+                            <th colspan="2">Kelas X</th>
+                            <th colspan="2">Kelas XI</th>
+                        </tr>
+                        <tr>
                             <th>Semester 1</th>
                             <th>Semester 2</th>
-                            <th>Semester 3</th>
-                            <th>Semester 4</th>
+                            <th>Semester 1</th>
+                            <th>Semester 2</th>
                         </tr>
                         <tr>
                             <th>Matematika</th>
@@ -168,21 +176,6 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>Indonesia</th>
-                            <td>
-                                <input type="number" name="inds1" min="0" max="100" required><br>
-                            </td>
-                            <td>
-                                <input type="number" name="inds2" min="0" max="100" required><br>
-                            </td>
-                            <td>
-                                <input type="number" name="inds3" min="0" max="100" required><br>
-                            </td>
-                            <td>
-                                <input type="number" name="inds4" min="0" max="100" required><br>
-                            </td>
-                        </tr>
-                        <tr>
                             <th>Inggris</th>
                             <td>
                                 <input type="number" name="ings1" min="0" max="100" required><br>
@@ -195,6 +188,21 @@
                             </td>
                             <td>
                                 <input type="number" name="ings4" min="0" max="100" required><br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Indonesia</th>
+                            <td>
+                                <input type="number" name="inds1" min="0" max="100" required><br>
+                            </td>
+                            <td>
+                                <input type="number" name="inds2" min="0" max="100" required><br>
+                            </td>
+                            <td>
+                                <input type="number" name="inds3" min="0" max="100" required><br>
+                            </td>
+                            <td>
+                                <input type="number" name="inds4" min="0" max="100" required><br>
                             </td>
                         </tr>
                         <tr>
