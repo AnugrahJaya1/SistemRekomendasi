@@ -21,6 +21,9 @@ Route::get('/result', function () {
     return view('result');
 });
 
-// Route::get('result', function () {
-//     return redirect('result');
-// });
+Route::get('/login', function () {
+    return view('login');
+});
+
+
+?>
