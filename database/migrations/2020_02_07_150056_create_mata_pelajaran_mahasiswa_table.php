@@ -17,6 +17,8 @@ class CreateMataPelajaranMahasiswaTable extends Migration
             $table->bigIncrements('id_mata_pelajaran_mahasiswa');
             $table->integer('id_user')->unsigned();
             $table->foreign('id_user')->references('id_user')->on('mahasiswa');
+            $table->integer('id_mata_pelajaran')->unsigned();
+            $table->foreign('id_mata_pelajaran')->references('id_mata_pelajaran')->on('mata_pelajaran');
         });
     }
 

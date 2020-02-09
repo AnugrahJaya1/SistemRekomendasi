@@ -15,6 +15,8 @@ class CreateNilaiTable extends Migration
     {
         Schema::create('nilai', function (Blueprint $table) {
             $table->increments('id_nilai');
+            $table->integer('id_mata_pelajaran')->unsigned();
+            $table->foreign('id_mata_pelajaran')->references('id_mata_pelajaran')->on('mata_pelajaran');
             $table->double('101', 5, 2);
             $table->double('102', 5, 2);
             $table->double('111', 5, 2);
