@@ -19,8 +19,8 @@ class CreateMahasiswaTable extends Migration
             $table->double('IPK', 3, 2);
             $table->integer('id_jurusan')->unsigned();
             $table->foreign('id_jurusan')->references('id_jurusan')->on('jurusan_sma');
-            $table->integer('id_fakultas')->unsigned();
-            $table->foreign('id_fakultas')->references('id_fakultas')->on('fakultas');
+            $table->integer('id_program_studi')->unsigned();
+            $table->foreign('id_program_studi')->references('id_program_studi')->on('program_studi');
         });
     }
 

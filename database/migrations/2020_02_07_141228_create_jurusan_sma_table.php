@@ -15,7 +15,7 @@ class CreateJurusanSMATable extends Migration
     {
         Schema::create('jurusan_sma', function (Blueprint $table) {
             $table->increments('id_jurusan');
-            $table->string('nama_jurusan',6);
+            $table->string('nama_jurusan',25);
         });
     }
 
