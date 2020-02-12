@@ -12,9 +12,21 @@
 */
 
 // root
+
+
 Route::get('/', function () {
     return view('index');
 });
+
+Route::get('/ipa', function(){
+    return view('ipa');
+});
+
+Route::get('/ips', function(){
+    return view('ips');
+});
+
+Route::post('/result','CalonMahasiswa@index');
 
 // result
 Route::get('/result', function () {
@@ -24,6 +36,4 @@ Route::get('/result', function () {
 Route::get('/login', function () {
     return view('login');
 });
-
-
 ?>

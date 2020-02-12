@@ -31,7 +31,9 @@
         <table style="width:100%">
             <tr>
                 <td>
-                    <img src="https://upload.wikimedia.org/wikimedia/id/5/54/Logo_UNPAR.png" width="100" height="100" class="rounded mx-auto d-block" alt="">
+                    <a onclick="window.location='/'" >
+                        <img src="https://upload.wikimedia.org/wikimedia/id/5/54/Logo_UNPAR.png" width="100" height="100" class="rounded mx-auto d-block" alt="">
+                    </a>
                 </td>
                 <td>
                     <h2 class="text-center"> Sistem Rekomendasi Program Studi Universitas Katolik Parahyangan </h2>
