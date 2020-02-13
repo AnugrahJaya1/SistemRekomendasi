@@ -14,6 +14,9 @@
             <th>Program Studi</th>
             <th>IPK</th>
         </tr>
+        <?php
+            print_r($data);
+        ?>
     </table>
 </div>
 @endsection
