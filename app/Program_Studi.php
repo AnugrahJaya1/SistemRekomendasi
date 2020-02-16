@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Program_Studi extends Model
 {
-    //
+    public $table = "program_studi";
 }

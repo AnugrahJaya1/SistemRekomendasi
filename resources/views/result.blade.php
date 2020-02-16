@@ -15,7 +15,9 @@
             <th>IPK</th>
         </tr>
         <?php
-            print_r($data);
+            print_r($data ?? '');
+            echo "<br>";
+            print_r($dataMahasiswa ?? '');
         ?>
     </table>
 </div>

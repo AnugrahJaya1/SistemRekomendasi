@@ -26,7 +26,7 @@ Route::get('/ips', function(){
     return view('ips');
 });
 
-Route::post('/result','CalonMahasiswa@index');
+Route::post('/result','CalonMahasiswaController@index');
 
 // result
 Route::get('/result', function () {
@@ -36,4 +36,8 @@ Route::get('/result', function () {
 Route::get('/login', function () {
     return view('login');
 });
+
+// Route::get('/result', 'ProgramStudiController@index');
+
+Route::get('/test','TestController@index');
 ?>

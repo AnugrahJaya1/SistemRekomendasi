@@ -4,20 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class CalonMahasiswa extends Controller
+use App\Http\Controllers\PearsonCorrelationController;
+
+class CalonMahasiswaController extends Controller
 {
     function index(Request $request)
     {
-        // print_r($request->input());
         $data = $request->input();
         $dataCalonMahasiswa = $this->dataCalonMahasiswa($data);
+
+        // $dataMahasiswa = PearsonCorrelationController::index($dataCalonMahasiswa->btn);
+        $pc = new PearsonCorrelationController();
+        $dataMahasiswa = $pc->index($dataCalonMahasiswa["btn"]);
         // ambil data nilai pelajaran
-        // 
+        
         // ambil nilai buttonyaa trs pake if
         // ambil data yang ips/ipa
         // proses
 
-        return view('/result', ['data' => $dataCalonMahasiswa]);
+        return view('/result', ['data' => $dataCalonMahasiswa, 'dataMahasiswa'=>$dataMahasiswa]);
+        // return view('/result',compact($dataCalonMahasiswa, $dataMahasiswa));
     }
 
     function dataCalonMahasiswa($data)
@@ -33,12 +39,12 @@ class CalonMahasiswa extends Controller
                     $k = substr($key, 0, 3);
                     // temporary array
                     $temp = [];
-                    // masukan data ke temp
-                    array_push($temp, $value);
+                    // masukan data (nilai) ke temp
+                    array_push($temp, ((int)$value/20)-1);
                     $i++;
                 } else {
-                    // masukan data ke temp
-                    array_push($temp, $value);
+                    // masukan data nilai ke temp
+                    array_push($temp, ((int)$value/20)-1);
                     $i++;
 
                     if ($i == 5) {
