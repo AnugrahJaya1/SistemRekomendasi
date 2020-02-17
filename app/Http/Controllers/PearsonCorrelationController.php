@@ -7,7 +7,7 @@ use App\Nilai;
 use App\Program_Studi;
 use Illuminate\Http\Request;
 use Jurusan_SMA;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -20,9 +20,9 @@ class PearsonCorrelationController extends Controller
             $idJurusan=2;
         }
 
-        $data = $this->dataMahasiswa($idJurusan);
+        $dataMahasiswa = $this->dataMahasiswa($idJurusan);
 
-        return $data;
+        return $dataMahasiswa;
     }
 
     private function dataMahasiswa($idJurusan){
