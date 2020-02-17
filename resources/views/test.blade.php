@@ -16,7 +16,7 @@
         <tr>
             <td>{{$mhs->NPM}}</td>
             @foreach($mhs->nilai as $n)
-                <td>{{$n->AVG}}</td>
+                <td>{{$n['101']}}</td>
             @endforeach
         </tr>
         @endforeach
