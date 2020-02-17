@@ -10,13 +10,19 @@
             <td>Jurusan SMA</td>
             <td>IPK</td>
         </tr>
+
+
         @foreach($mahasiswa as $mhs)
         <tr>
             <td>{{$mhs->NPM}}</td>
-            <td>{{$mhs->nama_jurusan}}</td>
-            <td>{{$mhs->IPK}}</td>
+            @foreach($mhs->nilai as $n)
+                <td>{{$n->AVG}}</td>
+            @endforeach
         </tr>
         @endforeach
+
+
+        
     </table>
 </body>
 

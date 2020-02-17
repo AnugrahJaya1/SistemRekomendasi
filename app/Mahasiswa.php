@@ -18,6 +18,14 @@ class Mahasiswa extends Model
 
     public function jurusan_sma()
     {
-        return $this->hasMany('App\Jurusan_SMA', 'id_jurusan');
+        return $this->belongsTo('App\Jurusan_SMA','id_jurusan','id_jurusan');
+    }
+
+    public function program_studi(){
+        return $this->belongsTo('App\Program_Studi','id_program_studi','id_program_studi');
+    }
+
+    public function nilai(){
+        return $this->hasMany('App\Nilai','id_user','id_user');
     }
 }

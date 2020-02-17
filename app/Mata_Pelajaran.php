@@ -12,4 +12,8 @@ class Mata_Pelajaran extends Model
         'id_mata_pelajaran',
         'nama_mata_pelajaran'
     ];
+
+    public function nilai(){
+        return $this->hasMany('App\Nilai','id_mata_pelajaran','id_mata_pelajaran');
+    }
 }

@@ -14,6 +14,6 @@ class Jurusan_SMA extends Model
     ];
 
     public function mahasiswa(){
-        return $this->belongsTo('App\Mahasiswa', 'id_jurusan');
+        return $this->hasMany('App\Mahasiswa','id_jurusan','id_jurusan');
     }
 }

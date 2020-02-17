@@ -40,4 +40,12 @@ class PearsonCorrelationController extends Controller
         //tentuin berapa matkul yang diitung
         //hitung berdasarkan mata pelajaran
     }
+
+    private function calculateStandarDeviation($data){
+
+    }
+
+    private function calculatePearson($data){
+        
+    }
 }

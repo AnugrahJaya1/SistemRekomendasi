@@ -18,4 +18,12 @@ class Nilai extends Model
         '112',
         'AVG'
     ];
+
+    public function mahasiswa(){
+        return $this->belongsTo('App\Nilai','id_user','id_user');
+    }
+
+    public function mata_pelajaran(){
+        return $this->belongsTo('App\Mata_Pelajaran','id_mata_pelajaran','id_mata_pelajaran');
+    }
 }
