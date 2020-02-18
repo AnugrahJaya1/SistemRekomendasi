@@ -18,21 +18,24 @@ class CalonMahasiswaController extends Controller
         "kim"=>6,
         "pkn"=>7
     );
+
     function index(Request $request)
     {
         $data = $request->input();
-        $dataCalonMahasiswa = $this->dataCalonMahasiswa($data);
+        $siswa = $this->dataCalonMahasiswa($data);
 
-        // $dataMahasiswa = PearsonCorrelationController::index($dataCalonMahasiswa->btn);
         $pc = new PearsonCorrelationController();
-        $dataMahasiswa = $pc->index($dataCalonMahasiswa["btn"]);
+        $mahasiswa = $pc->index($siswa["btn"]);
+
+        $pearson = $pc->calculatePearson($mahasiswa,$siswa);
         // ambil data nilai pelajaran
 
         // ambil nilai buttonyaa trs pake if
         // ambil data yang ips/ipa
         // proses
 
-        return view('/result', ['data' => $dataCalonMahasiswa, 'dataMahasiswa' => $dataMahasiswa]);
+        return view('/result', ['data' => $siswa, 'dataMahasiswa' => $mahasiswa, 'pearson'=>$pearson]);
+        // return view('/result', ['pearson'=>$pearson]);
         // return view('/result',compact($dataCalonMahasiswa, $dataMahasiswa));
     }
 
@@ -62,6 +65,7 @@ class CalonMahasiswaController extends Controller
                         array_push($temp, array_sum($temp) / count($temp));
                         // masukin data ke result
                         $result[$this->mata_pelajaran[$k]] = $temp;
+                        // print($k." ");
                         $i = 1;
                     }
                 }

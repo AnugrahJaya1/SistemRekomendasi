@@ -14,10 +14,19 @@ use Illuminate\Support\Facades\DB;
 
 class PearsonCorrelationController extends Controller
 {
-    public function index($jurusan_sma){
-        $idJurusan = 1;//IPA
-        if($jurusan_sma=="IPS"){
-            $idJurusan=2;
+    private $indexArray;
+    private $pearsonResult;
+
+    function __construct()
+    {
+        $this->indexArray = array('101', '102', '111', '112');
+    }
+
+    public function index($jurusan_sma)
+    {
+        $idJurusan = 1; //IPA
+        if ($jurusan_sma == "IPS") {
+            $idJurusan = 2;
         }
 
         $dataMahasiswa = $this->dataMahasiswa($idJurusan);
@@ -25,37 +34,70 @@ class PearsonCorrelationController extends Controller
         return $dataMahasiswa;
     }
 
-    private function dataMahasiswa($idJurusan){
-        // $query = DB::table('mahasiswa')
-        // ->join('program_studi','mahasiswa.id_program_studi','=','program_studi.id_program_studi')
-        // ->join('nilai','mahasiswa.id_user','=','nilai.id_user')
-        // ->where('id_jurusan','=',$idJurusan)
-        // ->orderBy('program_studi.id_program_studi','asc')
-        // ->select('NPM','mahasiswa.id_program_studi','id_mata_pelajaran','101','102','111','112','IPK')->get();
-
-        $query = Mahasiswa::with('Nilai')->get();
-        // cuman ambil, NPM, id_mata_pelajaran, nilai, avg, id_program_studi
+    private function dataMahasiswa($idJurusan)
+    {
+        $query = Mahasiswa::with('Nilai')->where('id_user',4)->get();
+        // cuman ambil id_user, NPM, id_mata_pelajaran, nilai, avg, id_program_studi
 
         return $query;
     }
 
-    private function calculateSimilarity($mhs, $siswa){
-        //tentuin berapa matkul yang diitung
-        //hitung berdasarkan mata pelajaran
-        //untuk 1 mahasiswa dengan 1 calon mahasiswa
-        //
+    private function calculateCovariance($mhs, $siswa)
+    {
+        $res = 0;
+        // untuk mengambil detail nilai 
+        foreach ($mhs->nilai as $n) {
+            $id_mp = $n->id_mata_pelajaran;
+            //IPS
+            if ($id_mp == 1 || $id_mp == 2 || $id_mp == 3 || $id_mp == 7) {
+                for ($i = 0; $i < 4; $i++) {
+                    //mahasiswa * siswa
+                    $res += ($n[$this->indexArray[$i]] - $n->AVG) * ($siswa[$id_mp][$i] - $siswa[$id_mp][4]);
+                }
+            }
+        }
+        return $res;
     }
 
-    private function calculateStandarDeviation($mhs, $siswa){
-
+    private function calculateStandarDeviation($mhs, $siswa)
+    {
+        $res = array();
+        $sdMhs = 0;
+        $sdSiswa = 0;
+        foreach ($mhs->nilai as $n) {
+            $id_mp = $n->id_mata_pelajaran;
+            //IPS
+            if ($id_mp == 1 || $id_mp == 2 || $id_mp == 3 || $id_mp == 7) {
+                for ($i = 0; $i < 4; $i++) {
+                    $sdMhs += pow($n[$this->indexArray[$i]] - $n->AVG, 2);
+                    $sdSiswa += pow($siswa[$id_mp][$i] - $siswa[$id_mp][4], 2);
+                }
+            }
+        }
+        array_push($res, sqrt($sdMhs), sqrt($sdSiswa));
+        return $res;
     }
 
-    private function calculatePearson($mhs, $siswa){
-        
+    public function calculatePearson($mahasiswa, $siswa)
+    {
+        $res = array();
+        foreach ($mahasiswa as $mhs) {
+            $covariance = $this->calculateCovariance($mhs, $siswa);
+            $sd = $this->calculateStandarDeviation($mhs, $siswa);
+            $sdMhs = $sd[0]; // standar deviasi untuk mahasiswa
+            $sdSiswa = $sd[1]; // standar deviasi untuk siswa
+
+            // inisialisai array agar tidak null
+            $res[$mhs->id_user]=array();
+            array_push($res[$mhs->id_user], ($covariance / ($sdMhs * $sdSiswa)), $mhs->id_program_studi);
+        }
+        return $res;
     }
 
-    // avg untuk 1 nilai (yang beririsan)
-    private function calculateAVG($arr){
-        return array_sum($arr)/count($arr);
+    public function calculatePredict($mahasiswa){
+        $res = array();
+        foreach($this->pearsonResult as $key=>$value){
+
+        }
     }
 }
