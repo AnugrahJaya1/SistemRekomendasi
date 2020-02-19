@@ -5,41 +5,45 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\PearsonCorrelationController;
+use App\Http\Controllers\MahasiswaController;
 
-class CalonMahasiswaController extends Controller
+class SiswaController extends Controller
 {
-    //bikin variable untuk nampung array
     private $mata_pelajaran = array(
-        "mtk"=>1,
-        "ind"=>2,
-        "ing"=>3,
-        "fis"=>4,
-        "gbr"=>5,
-        "kim"=>6,
-        "pkn"=>7
+        "mtk" => 1,
+        "ind" => 2,
+        "ing" => 3,
+        "fsk" => 4,
+        "gbr" => 5,
+        "pkn" => 6,
+        "kma" => 7,
     );
 
     function index(Request $request)
     {
+        // untuk penampung input dari form
         $data = $request->input();
-        $siswa = $this->dataCalonMahasiswa($data);
+        // untuk menampung input yang sudah diolah, agar mudah digunakan
+        $siswa = $this->dataSiswa($data);
 
+        // inisialisasi controller mahasiswa
+        $mahasiswa = new MahasiswaController();
+        // data mahasiswa
+        $mhs = $mahasiswa->index($siswa["btn"]);
+
+        // inisialisasi controller pearson correlation
         $pc = new PearsonCorrelationController();
-        $mahasiswa = $pc->index($siswa["btn"]);
+        // melakukan perhitungan kemiripan
+        $pearson = $pc->calculatePearson($mhs, $siswa);
 
-        $pearson = $pc->calculatePearson($mahasiswa,$siswa);
-        // ambil data nilai pelajaran
+        $predict = $pc->calculatePredict($pearson);
 
-        // ambil nilai buttonyaa trs pake if
-        // ambil data yang ips/ipa
-        // proses
-
-        return view('/result', ['data' => $siswa, 'dataMahasiswa' => $mahasiswa, 'pearson'=>$pearson]);
-        // return view('/result', ['pearson'=>$pearson]);
-        // return view('/result',compact($dataCalonMahasiswa, $dataMahasiswa));
+        // return view('/result', ['data' => $siswa, 'dataMahasiswa' => $mhs, 
+        // 'pearson' => $pearson, 'predict'=>$predict]);
+        return view('/result', ['predict'=>$predict]);
     }
 
-    function dataCalonMahasiswa($data)
+    function dataSiswa($data)
     {
         $i = 1;
         $result = [];

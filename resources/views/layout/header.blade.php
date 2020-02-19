@@ -15,7 +15,7 @@
         table,
         th,
         td {
-            border: 1px solid black;
+            /* border: solid black; */
             text-align: center;
         }
 

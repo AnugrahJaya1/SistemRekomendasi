@@ -15,8 +15,8 @@ class Jurusan_SMA extends Seeder
     public function run(){
         for ($id = 1; $id <= 2; $id++) {
             DB::table("jurusan_sma")->insert([
-                "id_jurusan_sma" => $id,
-                "nama_jurasan" => $this->jurusan[$id]
+                "id_jurusan" => $id,
+                "nama_jurusan" => $this->jurusan[$id-1]
             ]);
         }
     }

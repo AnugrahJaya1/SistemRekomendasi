@@ -21,7 +21,7 @@ class Fakultas extends Seeder
         for ($id = 1; $id <= 7; $id++) {
             DB::table("fakultas")->insert([
                 "id_fakultas" => $id,
-                "nama_fakultas" => $this->fakultas[$id]
+                "nama_fakultas" => $this->fakultas[$id-1]
             ]);
         }
     }

@@ -19,6 +19,9 @@ class CreateProgramStudiTable extends Migration
             
             $table->integer('id_fakultas')->unsigned();
             $table->foreign('id_fakultas')->references('id_fakultas')->on('fakultas');
+
+            $table->integer('id_jurusan')->unsigned();
+            $table->foreign('id_jurusan')->references('id_jurusan')->on('jurusan_sma');
         });
     }
 

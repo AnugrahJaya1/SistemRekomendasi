@@ -20,7 +20,7 @@
             @endforeach
         </tr>
         @endforeach
-
+        {{print_r($n)}}
 
         
     </table>

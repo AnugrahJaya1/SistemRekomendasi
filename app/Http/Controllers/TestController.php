@@ -24,7 +24,9 @@ class TestController extends Controller
 
         $query = Mahasiswa::with('Nilai')->get();
 
+        $p = new ProgramStudiController();
+        $n = $p->getNamaProgramStudi(110);
         // $query = MataPelajaran::with('Nilai')->get();
-        return view('/test',['mahasiswa'=>$query]);
+        return view('/test',['mahasiswa'=>$query, 'n'=>$n]);
     }
 }

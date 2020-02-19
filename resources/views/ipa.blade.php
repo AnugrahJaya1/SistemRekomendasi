@@ -10,7 +10,7 @@
 <div class="card bg-light border-0 ">
     <form action="/result" method="post">
         @csrf
-        <table align="center" class="table table-striped text-center w-75">
+        <table align="center" class="table table-striped table-bordered text-center w-75">
             <tr>
                 <th rowspan="2" style="vertical-align: middle;">Mata Pelajaran</th>
                 <th colspan="2">Kelas X</th>
@@ -25,46 +25,46 @@
             <tr>
                 <th>Matematika</th>
                 <td>
-                    <input type="number" name="101" min="0" max="100" step="any" required><br>
+                    <input type="number" name="mtk101" min="0" max="100" step="any" required><br>
                 </td>
                 <td>
-                    <input type="number" name="102" min="0" max="100" step="any" required><br>
+                    <input type="number" name="mtk102" min="0" max="100" step="any" required><br>
                 </td>
                 <td>
-                    <input type="number" name="111" min="0" max="100" step="any" required><br>
+                    <input type="number" name="mtk111" min="0" max="100" step="any" required><br>
                 </td>
                 <td>
-                    <input type="number" name="112" min="0" max="100" step="any" required><br>
+                    <input type="number" name="mtk112" min="0" max="100" step="any" required><br>
                 </td>
             </tr>
             <tr>
                 <th>Indonesia</th>
                 <td>
-                    <input type="number" name="101" min="0" max="100" step="any" required><br>
+                    <input type="number" name="ind101" min="0" max="100" step="any" required><br>
                 </td>
                 <td>
-                    <input type="number" name="102" min="0" max="100" step="any" required><br>
+                    <input type="number" name="ind102" min="0" max="100" step="any" required><br>
                 </td>
                 <td>
-                    <input type="number" name="111" min="0" max="100" step="any" required><br>
+                    <input type="number" name="ind111" min="0" max="100" step="any" required><br>
                 </td>
                 <td>
-                    <input type="number" name="112" min="0" max="100" step="any" required><br>
+                    <input type="number" name="ind112" min="0" max="100" step="any" required><br>
                 </td>
             </tr>
             <tr>
                 <th>Inggris</th>
                 <td>
-                    <input type="number" name="101" min="0" max="100" step="any" required><br>
+                    <input type="number" name="ing101" min="0" max="100" step="any" required><br>
                 </td>
                 <td>
-                    <input type="number" name="102" min="0" max="100" step="any" required><br>
+                    <input type="number" name="ing102" min="0" max="100" step="any" required><br>
                 </td>
                 <td>
-                    <input type="number" name="111" min="0" max="100" step="any" required><br>
+                    <input type="number" name="ing111" min="0" max="100" step="any" required><br>
                 </td>
                 <td>
-                    <input type="number" name="112" min="0" max="100" step="any" required><br>
+                    <input type="number" name="ing112" min="0" max="100" step="any" required><br>
                 </td>
             </tr>
             <tr>

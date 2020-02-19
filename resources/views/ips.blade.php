@@ -10,7 +10,7 @@
 <div class="card bg-light border-0">
     <form action='/result' method="post">
         @csrf
-        <table align="center" class="table table-striped text-center w-75">
+        <table align="center" class="table table-striped table-bordered text-center w-75">
             <tr>
                 <th rowspan="2" style="vertical-align: middle;">Mata Pelajaran</th>
                 <th colspan="2">Kelas X</th>
