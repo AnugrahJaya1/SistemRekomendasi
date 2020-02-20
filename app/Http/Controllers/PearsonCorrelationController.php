@@ -16,32 +16,13 @@ class PearsonCorrelationController extends Controller
     private $indexArray;
     private $programStudi;
     private $fakultas;
+    private $mahasiswa;
 
     function __construct()
     {
         $this->indexArray = array('101', '102', '111', '112');
         $this->programStudi = new ProgramStudiController();
         $this->fakultas = new FakultasController();
-    }
-
-    public function index($jurusan_sma)
-    {
-        $idJurusan = 1; //IPA
-        if ($jurusan_sma == "IPS") {
-            $idJurusan = 2;
-        }
-
-        $dataMahasiswa = $this->dataMahasiswa($idJurusan);
-
-        return $dataMahasiswa;
-    }
-
-    private function dataMahasiswa($idJurusan)
-    {
-        $query = Mahasiswa::with('Nilai')->where('id_jurusan', $idJurusan)->get();
-        // cuman ambil id_user, NPM, id_mata_pelajaran, nilai, avg, id_program_studi
-
-        return $query;
     }
 
     private function calculateCovariance($mhs, $siswa)
