@@ -45,12 +45,15 @@ class PearsonCorrelationController extends Controller
                 // hitung standar deviasi bisa disini
             }
             $avgMhs += $n->AVG;
-            $avgSiswa += $siswa[$id_mp][4];
+            // hitung jika avg siswa belum ada
+            if (!array_key_exists($mhs->id_program_studi, $this->avgSiswa)) {
+                $avgSiswa += $siswa[$id_mp][4];
+            }
             $counter++;
         }
         // menambahkan avg siswa ke array
-        if(!array_key_exists($mhs->id_program_studi, $this->avgSiswa)){
-            $this->avgSiswa[$mhs->id_program_studi]=$avgSiswa / $counter; 
+        if (!array_key_exists($mhs->id_program_studi, $this->avgSiswa)) {
+            $this->avgSiswa[$mhs->id_program_studi] = $avgSiswa / $counter;
         }
         //jangan masukin avg siswa ke array
         array_push($res, $temp, $avgMhs / $counter);
