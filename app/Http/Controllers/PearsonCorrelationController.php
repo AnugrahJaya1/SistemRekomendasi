@@ -17,12 +17,14 @@ class PearsonCorrelationController extends Controller
     private $programStudi;
     private $fakultas;
     private $mahasiswa;
+    private $avgSiswa;
 
     function __construct()
     {
         $this->indexArray = array('101', '102', '111', '112');
         $this->programStudi = new ProgramStudiController();
         $this->fakultas = new FakultasController();
+        $this->avgSiswa = array();
     }
 
     private function calculateCovariance($mhs, $siswa)
@@ -46,8 +48,12 @@ class PearsonCorrelationController extends Controller
             $avgSiswa += $siswa[$id_mp][4];
             $counter++;
         }
-
-        array_push($res, $temp, $avgMhs / $counter, $avgSiswa / $counter);
+        // menambahkan avg siswa ke array
+        if(!array_key_exists($mhs->id_program_studi, $this->avgSiswa)){
+            $this->avgSiswa[$mhs->id_program_studi]=$avgSiswa / $counter; 
+        }
+        //jangan masukin avg siswa ke array
+        array_push($res, $temp, $avgMhs / $counter);
         return $res;
     }
 
@@ -75,7 +81,7 @@ class PearsonCorrelationController extends Controller
             $temp = $this->calculateCovariance($mhs, $siswa);
             $covariance = $temp[0];
             $avgMhs = $temp[1];
-            $avgSiswa = $temp[2];
+            $avgSiswa = $this->avgSiswa[$mhs->id_program_studi];
             $sd = $this->calculateStandarDeviation($mhs, $siswa);
             $sdMhs = $sd[0]; // standar deviasi untuk mahasiswa
             $sdSiswa = $sd[1]; // standar deviasi untuk siswa
