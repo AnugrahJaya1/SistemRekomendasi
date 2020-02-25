@@ -21,7 +21,7 @@ class MahasiswaController extends Controller
 
     private function dataMahasiswa($idJurusan)
     {
-        $query = Mahasiswa::with('Nilai')->where('id_jurusan', $idJurusan)->get();
+        $query = Mahasiswa::with('Nilai')->where(['id_jurusan'=> $idJurusan])->get();
         // cuman ambil id_user, NPM, id_mata_pelajaran, nilai, avg, id_program_studi
 
         return $query;

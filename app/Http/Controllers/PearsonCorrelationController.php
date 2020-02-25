@@ -54,9 +54,11 @@ class PearsonCorrelationController extends Controller
         // menambahkan avg siswa ke array
         if (!array_key_exists($mhs->id_program_studi, $this->avgSiswa)) {
             $this->avgSiswa[$mhs->id_program_studi] = $avgSiswa / $counter;
+            $avgSiswa=0;
         }
         //jangan masukin avg siswa ke array
         array_push($res, $temp, $avgMhs / $counter);
+        $avgMhs=0;
         return $res;
     }
 
@@ -94,11 +96,11 @@ class PearsonCorrelationController extends Controller
 
             $sim = $covariance / ($sdMhs * $sdSiswa);
             // atur threshold
-            if ($sim > 0) {
+            // if ($sim > 0.7) {
                 // inisialisai array agar tidak null
                 $res[$mhs->id_user] = array();
                 array_push($res[$mhs->id_user], $sim, $id_prodi, $IPK, $avgMhs, $avgSiswa);
-            }
+            // }
         }
         return $res;
     }
@@ -108,9 +110,6 @@ class PearsonCorrelationController extends Controller
         // nilai person
         // id_user -> sim, id_prodi, IPK, avgMhs, avgSiswa 
         $res = array();
-        // untuk current posisi
-        $curr = 0;
-        $prev = 0;
         $a = 0;
         $b = 0;
         $temp = 0;
@@ -120,44 +119,38 @@ class PearsonCorrelationController extends Controller
         // b = SIGMA(pearson)
         // avgSiswa + a/b
         foreach ($pearson as $id_user => $value) {
-            // program studi
-            $curr = $value[1];
-            // iterasi awal
-            if ($curr != $prev) {
-                $a += $value[0] * ($value[2] - $value[3]);
-                $b += $value[0];
+            // sim * (IPK-AvgMhs)
+            $a += $value[0] * ($value[2] - $value[3]);
+            // sim
+            $b += $value[0];
+
+            // isi next sim, id_prodi, IPK, avgMhs, avgSiswa 
+            $next = next($pearson);
+
+            if ($next != null) {
+                // program studi mhs sekarang berbeda dengan mhs selanjutnya
+                if ($value[1] != $next[1]) {
+                    $temp = $value[4] + ($a / $b);
+                    $namaFakultas = $this->fakultas->getNamaFakultas($value[1]);
+                    $namaProdi = $this->programStudi->getNamaProgramStudi($value[1]);
+                    $res[$value[1]] = array();
+                    // dibalik
+                    array_push($res[$value[1]], $temp, $namaFakultas, $namaProdi);
+                    $a = 0;
+                    $b = 0;
+                }
             }
-            // iterasi >=1
-            if ($curr == $prev) {
-                // perhitungan untuk 1 user
-                $a += $value[0] * ($value[2] - $value[3]);
-                $b += $value[0];
-            } else if ($curr != $prev && $prev != 0) {
-                // untuk perhitungan prediksi prodi
+            // untuk yang terakhir
+            else if ($next == null) {
                 $temp = $value[4] + ($a / $b);
-                // inisialisasi array
-                $res[$prev] = array();
-                $namaFakultas = $this->fakultas->getNamaFakultas($prev);
-                $namaProdi = $this->programStudi->getNamaProgramStudi($prev);
+                $namaFakultas = $this->fakultas->getNamaFakultas($value[1]);
+                $namaProdi = $this->programStudi->getNamaProgramStudi($value[1]);
+                $res[$value[1]] = array();
                 // dibalik
-                array_push($res[$prev], $temp, $namaFakultas, $namaProdi);
-                // set untuk data berikutnya
-                $a = $value[0] * ($value[2] - $value[3]);
-                $b = $value[0];
+                array_push($res[$value[1]], $temp, $namaFakultas, $namaProdi);
             }
-            $prev = $curr;
         }
-
-        // untuk prodi terakhir
-        $temp = $value[4] + ($a / $b);
-        // inisialisasi array
-        $res[$prev] = array();
-        $namaFakultas = $this->fakultas->getNamaFakultas($prev);
-        $namaProdi = $this->programStudi->getNamaProgramStudi($prev);
-        // dibalik
-        array_push($res[$prev], $temp, $namaFakultas, $namaProdi);
-
-        // penampung untuk nilai prediksi IPK
+        // // penampung untuk nilai prediksi IPK
         $score = array_column($res, 0);
         // sort berdasarkan nilai prediksi ipk terbesar
         array_multisort($score, SORT_DESC, $res);

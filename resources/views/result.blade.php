@@ -22,11 +22,33 @@
             echo "<td>" . $i . "</td>";
             echo "<td>" . $value[1]. "</td>";
             echo "<td>" . $value[2] . "</td>";
-            echo "<td>" . $value[0] . "</td>";
+            echo "<td>" . number_format($value[0],2) . "</td>";
             echo "</tr>";
             $i++;
         }
         ?>
+    </table>
+
+    <table>
+        <tr>
+            <td>Id_User</td>
+            <td>Pearson</td>
+            <td>Id_Jurusan</td>
+            <td>IPK<td>
+            <td>AVG MHS<td>
+            <td>AVG Siswa<td>
+        </tr>
+
+        @foreach($pearson as $key=>$value)
+        <tr>
+            <td>{{$key}}</td>
+            <td>{{$value[0]}}</td>
+            <td>{{$value[1]}}</td>
+            <td>{{$value[2]}}</td>
+            <td>{{$value[3]}}</td>
+            <td>{{$value[4]}}</td>
+        </tr>
+        @endforeach
     </table>
 </div>
 @endsection

@@ -40,7 +40,7 @@ class SiswaController extends Controller
 
         // return view('/result', ['data' => $siswa, 'dataMahasiswa' => $mhs, 
         // 'pearson' => $pearson, 'predict'=>$predict]);
-        return view('/result', ['predict'=>$predict]);
+        return view('/result', ['predict'=>$predict, 'pearson'=>$pearson]);
     }
 
     function dataSiswa($data)
