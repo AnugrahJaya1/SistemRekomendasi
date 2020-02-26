@@ -54,11 +54,11 @@ class PearsonCorrelationController extends Controller
         // menambahkan avg siswa ke array
         if (!array_key_exists($mhs->id_program_studi, $this->avgSiswa)) {
             $this->avgSiswa[$mhs->id_program_studi] = $avgSiswa / $counter;
-            $avgSiswa=0;
+            $avgSiswa = 0;
         }
         //jangan masukin avg siswa ke array
         array_push($res, $temp, $avgMhs / $counter);
-        $avgMhs=0;
+        $avgMhs = 0;
         return $res;
     }
 
@@ -96,11 +96,11 @@ class PearsonCorrelationController extends Controller
 
             $sim = $covariance / ($sdMhs * $sdSiswa);
             // atur threshold
-            // if ($sim > 0.7) {
-                // inisialisai array agar tidak null
-                $res[$mhs->id_user] = array();
-                array_push($res[$mhs->id_user], $sim, $id_prodi, $IPK, $avgMhs, $avgSiswa);
-            // }
+            if ($sim > 0.7) {
+            // inisialisai array agar tidak null
+            $res[$mhs->id_user] = array();
+            array_push($res[$mhs->id_user], $sim, $id_prodi, $IPK, $avgMhs, $avgSiswa);
+            }
         }
         return $res;
     }
@@ -130,30 +130,81 @@ class PearsonCorrelationController extends Controller
             if ($next != null) {
                 // program studi mhs sekarang berbeda dengan mhs selanjutnya
                 if ($value[1] != $next[1]) {
-                    $temp = $value[4] + ($a / $b);
-                    $namaFakultas = $this->fakultas->getNamaFakultas($value[1]);
-                    $namaProdi = $this->programStudi->getNamaProgramStudi($value[1]);
-                    $res[$value[1]] = array();
-                    // dibalik
-                    array_push($res[$value[1]], $temp, $namaFakultas, $namaProdi);
+                    $res = $this->insertData($res, $a, $b, $value[4], $value[1]);
                     $a = 0;
                     $b = 0;
                 }
             }
             // untuk yang terakhir
             else if ($next == null) {
-                $temp = $value[4] + ($a / $b);
-                $namaFakultas = $this->fakultas->getNamaFakultas($value[1]);
-                $namaProdi = $this->programStudi->getNamaProgramStudi($value[1]);
-                $res[$value[1]] = array();
-                // dibalik
-                array_push($res[$value[1]], $temp, $namaFakultas, $namaProdi);
+                $res = $this->insertData($res, $a, $b, $value[4], $value[1]);
             }
         }
         // // penampung untuk nilai prediksi IPK
         $score = array_column($res, 0);
         // sort berdasarkan nilai prediksi ipk terbesar
         array_multisort($score, SORT_DESC, $res);
+
+        return $res;
+    }
+
+    private function insertData($res, $a, $b, $avgMhs, $id_prodi)
+    {
+        $pred = $avgMhs + ($a / $b);
+        $namaFakultas = $this->fakultas->getNamaFakultas($id_prodi);
+        $namaProdi = $this->programStudi->getNamaProgramStudi($id_prodi);
+        $res[$id_prodi] = array();
+        // dibalik
+        array_push($res[$id_prodi], $pred, $namaFakultas, $namaProdi);
+
+        return $res;
+    }
+
+    public function calculatePredict1($pearson)
+    {
+        $res = array();
+
+        // a = Sigma(sim * IPK)
+        $a = 0;
+        // b = Sigma(sim)
+        $b = 0;
+        // pred = a/b
+        // id_user -> sim, id_prodi, IPK, avgMhs, avgSiswa 
+        foreach ($pearson as $id_user => $value) {
+            $a += $value[0] * $value[2];
+            $b += $value[0];
+
+            $next = next($pearson);
+
+            if ($next != null) {
+                // program studi mhs sekarang berbeda dengan mhs selanjutnya
+                if ($value[1] != $next[1]) {
+                    $res = $this->insertData1($res, $a, $b, $value[1]);
+
+                    $a = 0;
+                    $b = 0;
+                }
+            } else if ($next == null) {
+                $res = $this->insertData1($res, $a, $b, $value[1]);
+            }
+        }
+
+        // // penampung untuk nilai prediksi IPK
+        $score = array_column($res, 0);
+        // sort berdasarkan nilai prediksi ipk terbesar
+        array_multisort($score, SORT_DESC, $res);
+
+        return $res;
+    }
+
+    private function insertData1($res, $a, $b, $id_prodi)
+    {
+        $pred = $a / $b;
+        $namaFakultas = $this->fakultas->getNamaFakultas($id_prodi);
+        $namaProdi = $this->programStudi->getNamaProgramStudi($id_prodi);
+        $res[$id_prodi] = array();
+        // dibalik
+        array_push($res[$id_prodi], $pred, $namaFakultas, $namaProdi);
 
         return $res;
     }
