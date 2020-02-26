@@ -40,10 +40,10 @@ class SiswaController extends Controller
 
         // return view('/result', ['data' => $siswa, 'dataMahasiswa' => $mhs, 
         // 'pearson' => $pearson, 'predict'=>$predict]);
-        return view('/result', ['predict'=>$predict, 'pearson'=>$pearson]);
+        return view('/result', ['predict'=>$predict, 'pearson'=>$pearson, 'siswa'=>$siswa]);
     }
 
-    function dataSiswa($data)
+    private function dataSiswa($data)
     {
         $i = 1;
         $result = [];

@@ -26,9 +26,11 @@ Route::get('/ips', function(){
     return view('ips');
 });
 
-Route::get('/pengujian',function(){
-    return view('pengujian');
-});
+// Route::get('/pengujian',function(){
+//     return view('pengujian');
+// });
+
+Route::get('/pengujian','PengujianController@index');
 
 Route::post('/result','SiswaController@index');
 

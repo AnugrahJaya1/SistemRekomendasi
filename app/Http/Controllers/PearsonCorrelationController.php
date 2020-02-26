@@ -97,9 +97,9 @@ class PearsonCorrelationController extends Controller
             $sim = $covariance / ($sdMhs * $sdSiswa);
             // atur threshold
             if ($sim > 0.7) {
-            // inisialisai array agar tidak null
-            $res[$mhs->id_user] = array();
-            array_push($res[$mhs->id_user], $sim, $id_prodi, $IPK, $avgMhs, $avgSiswa);
+                // inisialisai array agar tidak null
+                $res[$mhs->id_user] = array();
+                array_push($res[$mhs->id_user], $sim, $id_prodi, $IPK, $avgMhs, $avgSiswa);
             }
         }
         return $res;
