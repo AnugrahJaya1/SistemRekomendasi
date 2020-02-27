@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\MahasiswaController;
 use Phpml\CrossValidation\RandomSplit;
 
+use App\Http\Controllers\PearsonCorrelationController2;
+
 use Phpml\Dataset\ArrayDataset;
 
 class PengujianController extends Controller
@@ -44,6 +46,10 @@ class PengujianController extends Controller
 
         echo "<br>";
         // print($dataset->getTestLabels()[0]);
+
+        // $pearonCorrelation = new PearsonCorrelationController2();
+
+        // $covariance = $pearonCorrelation->calcula
 
         return view('/pengujian');
     }

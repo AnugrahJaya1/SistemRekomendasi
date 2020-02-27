@@ -29,10 +29,15 @@ class SiswaController extends Controller
         // inisialisasi controller mahasiswa
         $mahasiswa = new MahasiswaController();
         // data mahasiswa
-        $mhs = $mahasiswa->index($siswa["btn"]);
+        $mhs = $mahasiswa->index($siswa["btn"])->toArray();
+
+        print_r($siswa);
+        echo "<br>";
+        echo "<br>";
+        print_r($mhs[0]);
 
         // inisialisasi controller pearson correlation
-        $pc = new PearsonCorrelationController();
+        $pc = new PearsonCorrelationController2();
         // melakukan perhitungan kemiripan
         $pearson = $pc->calculatePearson($mhs, $siswa);
 
@@ -40,7 +45,7 @@ class SiswaController extends Controller
 
         // return view('/result', ['data' => $siswa, 'dataMahasiswa' => $mhs, 
         // 'pearson' => $pearson, 'predict'=>$predict]);
-        return view('/result', ['predict'=>$predict, 'pearson'=>$pearson, 'siswa'=>$siswa]);
+        return view('/result', ['predict'=>$predict, 'pearson'=>$pearson]);
     }
 
     private function dataSiswa($data)

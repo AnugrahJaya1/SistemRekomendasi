@@ -28,5 +28,21 @@
         }
         ?>
     </table>
+
+    <table>
+        <tr>
+            <td>Id_User</td>
+            <td>Pearson</td>
+            <td>Id_Jurusan</td>
+        </tr>
+
+        @foreach($pearson as $key=>$value)
+        <tr>
+            <td>{{$key}}</td>
+            <td>{{$value[0]}}</td>
+            <td>{{$value[1]}}</td>
+        </tr>
+        @endforeach
+    </table>
 </div>
 @endsection
