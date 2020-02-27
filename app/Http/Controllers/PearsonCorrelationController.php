@@ -16,7 +16,6 @@ class PearsonCorrelationController extends Controller
     private $indexArray;
     private $programStudi;
     private $fakultas;
-    private $mahasiswa;
     private $avgSiswa;
 
     function __construct()
