@@ -20,6 +20,7 @@ class PengujianController extends Controller
         // untuk label setiap data
         $arrLabel = array();
 
+        // array labelnya bisa pake id_program_studi
         foreach ($data as $m) {
             array_push($arrLabel, $m["id_program_studi"]);
         }
@@ -35,6 +36,10 @@ class PengujianController extends Controller
 
         $x = $dataset->getTestSamples()[0]['nilai'];
 
+        print_r($x);
+        echo "<br>";
+        echo "<br>";
+
         foreach ($x as $x) {
             // foreach($x as $x){
             print_r($x);
@@ -47,6 +52,9 @@ class PengujianController extends Controller
         echo "<br>";
         // print($dataset->getTestLabels()[0]);
 
+        print("Jumlah Train Sample : ".count($train));
+        echo"<br>";
+        print("Jumlah Test Sample : ".count($test));
         // $pearonCorrelation = new PearsonCorrelationController2();
 
         // $covariance = $pearonCorrelation->calcula
