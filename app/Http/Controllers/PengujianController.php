@@ -12,7 +12,12 @@ use Phpml\Dataset\ArrayDataset;
 
 class PengujianController extends Controller
 {
-    public function index()
+
+    protected $train, $test;
+    protected $pc;
+    protected $error1, $error2;
+
+    function __construct()
     {
         $mhs = new MahasiswaController();
         $data = $mhs->index("IPS")->toArray();
@@ -29,36 +34,62 @@ class PengujianController extends Controller
 
         $dataset = new RandomSplit($dataset, 0.3);
 
-        $train = $dataset->getTrainSamples();
-        $test = $dataset->getTestSamples();
+        $this->train = $dataset->getTrainSamples();
+        $this->test = $dataset->getTestSamples();
 
-        // print_r($dataset->getTestSamples()[0]['nilai']);
+        $this->error1 = array();
+        $this->error2 = array();
+    }
 
-        $x = $dataset->getTestSamples()[0]['nilai'];
+    public function index()
+    {
+        $result = array();
+        $this->pc = new PearsonCorrelationPengujianController();
 
-        print_r($x);
-        echo "<br>";
-        echo "<br>";
+        // test = siswa
+        foreach ($this->test as $t) {
+            // biar tidak ada duplikat
+            if(!array_key_exists($t["NPM"],$result)){
+                $temp = array();
+                $pearon = $this->pc->calculatePearson($this->train, $t);
 
-        foreach ($x as $x) {
-            // foreach($x as $x){
-            print_r($x);
-            echo "<br>";
-            print_r($x[0]);
-            echo "<br>";
-            // }
+                $predict = $this->pc->calculatePredict($pearon);
+
+                // print_r($predict);
+                if ($predict!= null) {
+                    // Hitung selisih untuk mean absolute error
+                    $diff1 = abs($t["IPK"] - number_format($predict[0][0], 2));
+                    // Memasukkan diff1 kepada arr
+                    array_push($this->error1, $diff1);
+
+                    // Hitung selisih untuk root mean square error
+                    $diff2 = pow($t["IPK"] - number_format($predict[0][0], 2),2);
+                    // Memasukkan diff1 kepada arr
+                    array_push($this->error2, $diff2);
+
+                    // isinya npm, nama programstudi, IPK, Prediksi, diff
+                    array_push($temp, $t["NPM"], $predict[0][2], $t['IPK'], 
+                    number_format($predict[0][0], 2), $diff1, $diff2);
+                    // Memasukkan array temp pada array result
+                    array_push($result, $temp);
+                }
+            }
         }
 
-        echo "<br>";
-        // print($dataset->getTestLabels()[0]);
+        $mae = $this->calculateMAE($this->error1);
+        $rmse = $this->calculateRMSE($this->error2);
+        return view('/pengujian', ['result' => $result, 'mae' => $mae, 'rmse'=>$rmse]);
+    }
 
-        print("Jumlah Train Sample : ".count($train));
-        echo"<br>";
-        print("Jumlah Test Sample : ".count($test));
-        // $pearonCorrelation = new PearsonCorrelationController2();
+    public function calculateMAE($arr)
+    {
+        return array_sum($arr) / count($arr);
+    }
 
-        // $covariance = $pearonCorrelation->calcula
+    public function calculateRMSE($arr){
+        $a = array_sum($arr);
+        $b = count($arr);
 
-        return view('/pengujian');
+        return sqrt($a/$b);
     }
 }
