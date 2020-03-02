@@ -31,11 +31,6 @@ class SiswaController extends Controller
         // data mahasiswa
         $mhs = $mahasiswa->index($siswa["btn"])->toArray();
 
-        print_r($siswa);
-        echo "<br>";
-        echo "<br>";
-        print_r($mhs[0]);
-
         // inisialisasi controller pearson correlation
         $pc = new PearsonCorrelationController();
         // melakukan perhitungan kemiripan
