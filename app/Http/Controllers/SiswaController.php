@@ -45,13 +45,14 @@ class SiswaController extends Controller
 
         // return view('/result', ['data' => $siswa, 'dataMahasiswa' => $mhs, 
         // 'pearson' => $pearson, 'predict'=>$predict]);
-        return view('/result', ['predict'=>$predict, 'pearson'=>$pearson]);
+        return view('/result', ['predict' => $predict, 'pearson' => $pearson]);
     }
 
     private function dataSiswa($data)
     {
         $i = 1;
-        $result = [];
+        $result = array();
+        $result["nilai"] = array();
         foreach ($data as $key => $value) {
             if ($key == "_token") {
                 $result[$key] = $value;
@@ -71,9 +72,20 @@ class SiswaController extends Controller
 
                     if ($i == 5) {
                         // avg nilai
-                        array_push($temp, array_sum($temp) / count($temp));
+
+                        $avg = array_sum($temp) / count($temp);
+                        array_push($temp, $avg);
+
+                        // replace index ke-4 dengan AVG
+                        $temp = $this->replaceKey($temp, 4, "AVG");
+
+                        array_push($temp, $this->mata_pelajaran[$k]);
+
+                        $temp = $this->replaceKey($temp, 5, "id_mata_pelajaran");
+
                         // masukin data ke result
-                        $result[$this->mata_pelajaran[$k]] = $temp;
+                        // $result[$this->mata_pelajaran[$k]] = $temp;
+                        array_push($result["nilai"], $temp);
                         // print($k." ");
                         $i = 1;
                     }
@@ -87,5 +99,13 @@ class SiswaController extends Controller
             $result["btn"] = "IPS";
         }
         return $result;
+    }
+
+    private function replaceKey($temp, $oldKey, $newKey)
+    {
+        $temp[$newKey] = $temp[$oldKey];
+        unset($temp[$oldKey]);
+
+        return $temp;
     }
 }

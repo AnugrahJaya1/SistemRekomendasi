@@ -21,19 +21,25 @@ class PearsonCorrelationController extends Controller
     // dengan satu siswa
     private function calculateCovariance($mhs, $siswa)
     {
-        $temp = 0;
+        $res = 0;
         // nilai 1 mhs
-        $nilai = $mhs['nilai'];
+        $nilaiMhs = $mhs['nilai'];
+        $nilaiSiswa = $siswa['nilai'];
         // looping sebanyak nilai
-        foreach ($nilai as $n) {
-            $id_mp = $n['id_mata_pelajaran'];
-            for ($i = 0; $i < 4; $i++) {
-                //mahasiswa * siswa
-                $temp += ($n[$i] - $n['AVG']) * ($siswa[$id_mp][$i] - $siswa[$id_mp][4]);
+        foreach ($nilaiSiswa as $nSiswa) {
+            $idMP = $nSiswa['id_mata_pelajaran'];
+            foreach ($nilaiMhs as $nMhs) {
+                if ($idMP == $nMhs['id_mata_pelajaran']) {
+                    for ($i = 0; $i < 4; $i++) {
+                        //mahasiswa * siswa
+                        $res += ($nMhs[$i] - $nMhs["AVG"]) * ($nSiswa[$i] - $nSiswa["AVG"]);
+                    }
+                } else if ($idMP < $nMhs['id_mata_pelajaran']) {
+                    break;
+                }
             }
         }
-
-        return $temp;
+        return $res;
     }
 
     // mengitung standar deviasi untuk satu mahasiswa
@@ -45,13 +51,20 @@ class PearsonCorrelationController extends Controller
         $sdMhs = 0;
         $sdSiswa = 0;
         // nilai 1 mhs
-        $nilai = $mhs['nilai'];
+        $nilaiMhs = $mhs['nilai'];
+        $nilaiSiswa = $siswa['nilai'];
         // looping sebanyak nilai
-        foreach ($nilai as $n) {
-            $id_mp = $n['id_mata_pelajaran'];
-            for ($i = 0; $i < 4; $i++) {
-                $sdMhs += pow($n[$i] - $n['AVG'], 2);
-                $sdSiswa += pow($siswa[$id_mp][$i] - $siswa[$id_mp][4], 2);
+        foreach ($nilaiSiswa as $nSiswa) {
+            $idMP = $nSiswa['id_mata_pelajaran'];
+            foreach ($nilaiMhs as $nMhs) {
+                if ($idMP == $nMhs['id_mata_pelajaran']) {
+                    for ($i = 0; $i < 4; $i++) {
+                        $sdMhs += pow($nMhs[$i] - $nMhs['AVG'], 2);
+                        $sdSiswa += pow($nSiswa[$i] - $nSiswa["AVG"], 2);
+                    }
+                } else if ($idMP < $nMhs['id_mata_pelajaran']) {
+                    break;
+                }
             }
         }
         array_push($res, sqrt($sdMhs), sqrt($sdSiswa));
