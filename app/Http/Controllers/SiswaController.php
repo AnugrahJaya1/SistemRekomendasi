@@ -35,11 +35,9 @@ class SiswaController extends Controller
         $pc = new PearsonCorrelationController();
         // melakukan perhitungan kemiripan
         $pearson = $pc->calculatePearson($mhs, $siswa);
-
+        // menghitung prediksi
         $predict = $pc->calculatePredict($pearson);
 
-        // return view('/result', ['data' => $siswa, 'dataMahasiswa' => $mhs, 
-        // 'pearson' => $pearson, 'predict'=>$predict]);
         return view('/result', ['predict' => $predict, 'pearson' => $pearson]);
     }
 
