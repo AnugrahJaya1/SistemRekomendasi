@@ -17,10 +17,12 @@ class PengujianController extends Controller
     protected $pc;
     protected $error1, $error2;
 
-    function __construct()
+    function __construct(Request $request)
     {
+        $id_jurusan = $request->input();
+        
         $mhs = new MahasiswaController();
-        $data = $mhs->index("IPS")->toArray();
+        $data = $mhs->index($id_jurusan["btn"])->toArray();
 
         // untuk label setiap data
         $arrLabel = array();
@@ -49,27 +51,34 @@ class PengujianController extends Controller
         // test = siswa
         foreach ($this->test as $t) {
             // biar tidak ada duplikat
-            if(!array_key_exists($t["NPM"],$result)){
+            if (!array_key_exists($t["NPM"], $result)) {
                 $temp = array();
                 $pearon = $this->pc->calculatePearson($this->train, $t);
 
                 $predict = $this->pc->calculatePredict($pearon);
 
                 // print_r($predict);
-                if ($predict!= null) {
+                if ($predict != null) {
                     // Hitung selisih untuk mean absolute error
                     $diff1 = abs($t["IPK"] - number_format($predict[0][0], 2));
                     // Memasukkan diff1 kepada arr
                     array_push($this->error1, $diff1);
 
                     // Hitung selisih untuk root mean square error
-                    $diff2 = pow($t["IPK"] - number_format($predict[0][0], 2),2);
+                    $diff2 = pow($t["IPK"] - number_format($predict[0][0], 2), 2);
                     // Memasukkan diff1 kepada arr
                     array_push($this->error2, $diff2);
 
                     // isinya npm, nama programstudi, IPK, Prediksi, diff
-                    array_push($temp, $t["NPM"], $predict[0][2], $t['IPK'], 
-                    number_format($predict[0][0], 2), $diff1, $diff2);
+                    array_push(
+                        $temp,
+                        $t["NPM"],
+                        $predict[0][2],
+                        $t['IPK'],
+                        number_format($predict[0][0], 2),
+                        $diff1,
+                        $diff2
+                    );
                     // Memasukkan array temp pada array result
                     array_push($result, $temp);
                 }
@@ -78,7 +87,7 @@ class PengujianController extends Controller
 
         $mae = $this->calculateMAE($this->error1);
         $rmse = $this->calculateRMSE($this->error2);
-        return view('/pengujian', ['result' => $result, 'mae' => $mae, 'rmse'=>$rmse]);
+        return view('/pengujian', ['status' => TRUE, 'result' => $result, 'mae' => $mae, 'rmse' => $rmse]);
     }
 
     public function calculateMAE($arr)
@@ -86,10 +95,11 @@ class PengujianController extends Controller
         return array_sum($arr) / count($arr);
     }
 
-    public function calculateRMSE($arr){
+    public function calculateRMSE($arr)
+    {
         $a = array_sum($arr);
         $b = count($arr);
 
-        return sqrt($a/$b);
+        return sqrt($a / $b);
     }
 }

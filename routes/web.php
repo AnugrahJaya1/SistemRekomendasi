@@ -26,20 +26,19 @@ Route::get('/ips', function(){
     return view('ips');
 });
 
-// Route::get('/pengujian',function(){
-//     return view('pengujian');
-// });
-
-Route::get('/pengujian','PengujianController@index');
+Route::post('/pengujian','PengujianController@index');
 
 Route::post('/result','SiswaController@index');
-
-// Route::get('/result','ProgramStudiController@getNamaProgramStudi');
 
 // result
 Route::get('/result', function () {
     return view('result');
 });
+
+Route::get('/pengujian',function(){
+    return view('pengujian');
+});
+
 
 Route::get('/login', function () {
     return view('login');
@@ -48,4 +47,3 @@ Route::get('/login', function () {
 // Route::get('/result', 'ProgramStudiController@index');
 
 Route::get('/test','TestController@index');
-?>
