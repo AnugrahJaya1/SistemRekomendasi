@@ -16,6 +16,7 @@ class PengujianController extends Controller
     protected $train, $test;
     protected $pc;
     protected $error1, $error2;
+    protected $accuracy;
 
     function __construct(Request $request)
     {
@@ -41,6 +42,8 @@ class PengujianController extends Controller
 
         $this->error1 = array();
         $this->error2 = array();
+
+        $this->accuracy = new AccuracyController();
     }
 
     public function index()
@@ -85,21 +88,9 @@ class PengujianController extends Controller
             }
         }
 
-        $mae = $this->calculateMAE($this->error1);
-        $rmse = $this->calculateRMSE($this->error2);
+        $mae = $this->accuracy->calculateMAE($this->error1);
+        $rmse = $this->accuracy->calculateRMSE($this->error2);
         return view('/pengujian', ['status' => TRUE, 'result' => $result, 'mae' => $mae, 'rmse' => $rmse]);
     }
 
-    public function calculateMAE($arr)
-    {
-        return array_sum($arr) / count($arr);
-    }
-
-    public function calculateRMSE($arr)
-    {
-        $a = array_sum($arr);
-        $b = count($arr);
-
-        return sqrt($a / $b);
-    }
 }

@@ -36,7 +36,8 @@
                     </a>
                 </td>
                 <td>
-                    <h2 class="text-center"> Sistem Rekomendasi Program Studi Universitas Katolik Parahyangan </h2>
+                    <h2 class="text-center">Sistem Rekomendasi Program Studi</h2>
+                    <h2 class="text-center">Universitas Katolik Parahyangan </h2>
                 </td>
             </tr>
         </table>
