@@ -12,17 +12,17 @@
         </tr>
 
 
-        @foreach($mahasiswa as $mhs)
-        <tr>
-            <td>{{$mhs->NPM}}</td>
-            @foreach($mhs->nilai as $n)
-                <td>{{$n['101']}}</td>
-            @endforeach
-        </tr>
-        @endforeach
-        {{print_r($n)}}
+        <?php
+        // print_r(array_keys($mahasiswa));
+        // foreach ($mahasiswa as $mhs) {
+        //     echo "<tr>";
+        //     echo "<td>" . $mhs['NPM'] . "</td>";
+        //     echo "<td>" . $mhs['id_jurusan'] . "</td>";
+        //     echo "<td>" . $mhs['IPK'] . "</td>";
+        //     echo "</tr>";
+        // }
 
-        
+        ?>
     </table>
 </body>
 

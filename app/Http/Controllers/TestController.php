@@ -14,19 +14,12 @@ class TestController extends Controller
 {
     public function index()
     {
-        // $query = DB::table('mahasiswa')
-        // ->join('jurusan_sma','mahasiswa.id_jurusan','=','jurusan_sma.id_jurusan')
-        // ->select('NPM','nama_jurusan','IPK')->get();
+        $mahasiswa = new MahasiswaController();
+        // data mahasiswa
+        $mhs = $mahasiswa->index("IPS")->toArray();
 
-        // $query = Mahasiswa::with('Program_Studi')->get();
+        $kMeans = new KMeansController(2, $mhs);
 
-        // $query = Fakultas::with('Program_studi')->get();
-
-        $query = Mahasiswa::with('Nilai')->get();
-
-        $p = new ProgramStudiController();
-        $n = $p->getNamaProgramStudi(110);
-        // $query = MataPelajaran::with('Nilai')->get();
-        return view('/test',['mahasiswa'=>$query, 'n'=>$n]);
+        return view('/test',['mahasiswa'=>$mhs]);
     }
 }
