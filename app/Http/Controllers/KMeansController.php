@@ -27,18 +27,27 @@ class KMeansController extends Controller
             $abc++;
             $status = $this->calculateThreshold();
         }
+        foreach ($this->currCentroid as $key => $value) {
+            $nilaiCen = $value['nilai'];
+            foreach ($nilaiCen as $subKey => $subValue) {
+                print_r($subValue);
+                echo "<br>";
+                echo "<br>";
+            }
+            
+        }
     }
 
     private function randomCentroid()
     {
         for ($i = 0; $i < $this->k; $i++) {
             // random sebanyak data mahasiswa
-            $key = mt_rand(0, 1739);
+            $key = rand(0, 1739);
             if (array_key_exists($key, $this->dataMahasiswa)) {
                 if (!array_key_exists($key, $this->currCentroid)) {
-                    print_r($this->dataMahasiswa[$key]);
-                    echo "<br>";
-                    echo "<br>";
+                    // print_r($this->dataMahasiswa[$key]);
+                    // echo "<br>";
+                    // echo "<br>";
                     array_push($this->currCentroid, $this->dataMahasiswa[$key]);
                 } else {
                     $i--;
