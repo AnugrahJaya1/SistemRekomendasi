@@ -6,258 +6,299 @@ use Illuminate\Http\Request;
 
 class KMeansController extends Controller
 {
-    protected $currCentroid, $prevCentroid;
-    private $k, $dataMahasiswa;
+    private $currCentroid, $prevCentroid;
+    private $k;
+    private $cluster;
+    private $mahasiswa;
 
-    public function __construct($k, $dataMahasiswa)
+    function __construct($k, $dataMahasiswa)
     {
         $this->k = $k;
-        $this->dataMahasiswa = $dataMahasiswa;
+        $this->mahasiswa = $dataMahasiswa;
+        $this->inisialisasiCluster();
         $this->currCentroid = array();
-        $this->prevCentroid = array();
-        $this->randomCentroid();
+
+        $this->pilihCentroid();
+        // print(count($this->currCentroid));
+
+
+        print_r($this->currCentroid);
+        echo "<br>";
+        echo "<br>";
+        echo "<br>";
+        echo "<br>";
+
+
+        $this->hitungJarak();
+        // $this->printHitungJarak($jarak);
+        // $this->printCluster();
 
         $status = true;
-        $abc = 0;
+        $idx = 0;
         while ($status) {
-            $distance = $this->calculateCentroid();
-            $this->calculateNewCentroid($distance);
-            print($abc);
+            $this->hitungCentroidBaru();
+
+            print_r($this->currCentroid);
             echo "<br>";
-            $abc++;
-            $status = $this->calculateThreshold();
-        }
-        foreach ($this->currCentroid as $key => $value) {
-            $nilaiCen = $value['nilai'];
-            foreach ($nilaiCen as $subKey => $subValue) {
-                print_r($subValue);
-                echo "<br>";
-                echo "<br>";
+            echo "<br>";
+
+            $idx++;
+            print($idx);
+            echo "<br>";
+            if ($idx == 10) {
+                $status = false;
             }
-            
+            $this->hitungJarak();
         }
     }
 
-    private function randomCentroid()
+    private function inisialisasiCluster()
     {
+        $this->cluster = array();
+        // inisialisasi untuk res anggota cluster
         for ($i = 0; $i < $this->k; $i++) {
-            // random sebanyak data mahasiswa
-            $key = rand(0, 1739);
-            if (array_key_exists($key, $this->dataMahasiswa)) {
-                if (!array_key_exists($key, $this->currCentroid)) {
-                    // print_r($this->dataMahasiswa[$key]);
-                    // echo "<br>";
-                    // echo "<br>";
-                    array_push($this->currCentroid, $this->dataMahasiswa[$key]);
-                } else {
-                    $i--;
-                }
-            } else {
-                $i--;
-            }
+            $this->cluster[$i] = array();
         }
-
-        // array_push($this->currCentroid, $this->dataMahasiswa[1]);
-        // // print_r($this->dataMahasiswa[1]);
-        // // echo "<br>";
-        // // echo "<br>";
-
-        // array_push($this->currCentroid, $this->dataMahasiswa[5]);
-        // // print_r($this->dataMahasiswa[5]);
-        // // echo "<br>";
-        // // echo "<br>";
     }
 
-    private function calculateCentroid()
+    // fungsi untuk memilih secara acak mahasiswa mana
+    // yang akan dijadikan centroid
+    private function pilihCentroid()
     {
-        $res = array();
-        $i = 0;
-        foreach ($this->dataMahasiswa as $mhs) {
-            // untuk nilai satu mahasiswa
-            $nilaiMhs = $mhs['nilai'];
-            $tempArray = array();
-            foreach ($nilaiMhs as $nMhs) {
-                // nilai per mata pelajaran Mahasiswa
-                $arrDistance = array();
-                foreach ($this->currCentroid as $cen) {
-                    // nilai permata pelajaran centroid
-                    $nilaiCen = $cen['nilai'];
-                    $distance = 0;
-                    foreach ($nilaiCen as $nCen) {
-                        // melakukkan perhitungan distance untuk nilai matematika dan inggris
-                        // untuk mtk (1) untuk inggris (3)
+        // for ($i = 0; $i < $this->k; $i++) {
+        //     // random secara acak key(idx) mahasiswa
+        //     $key = rand(0, 1739);
+        //     // cek apakah ada key(idx) pada mahasiswa
+        //     if (array_key_exists($key, $this->mahasiswa)) {
+        //         // cek apakah ada key(idx) pada currCentroid
+        //         if (!array_key_exists($key, $this->currCentroid)) {
+        //             array_push($this->currCentroid, $this->mahasiswa[$key]);
+        //         } else {
+        //             $i--;
+        //         }
+        //     } else {
+        //         $i--;
+        //     }
+        // }
+
+        // untuk testing
+        array_push($this->currCentroid, $this->mahasiswa[1]);
+        // print_r($this->dataMahasiswa[1]);
+        // echo "<br>";
+        // echo "<br>";
+
+        array_push($this->currCentroid, $this->mahasiswa[5]);
+        // print_r($this->dataMahasiswa[5]);
+        // echo "<br>";
+        // echo "<br>";
+    }
+
+    // fungsi untuk menghitung jarak untuk untuk 
+    // mata pelajaran mtk (1) dan ing (3)
+    private function hitungJarak()
+    {
+        $result = array();
+        // looping sebanyak mahasiswa
+        foreach ($this->mahasiswa as $keyMhs => $valueMhs) {
+            // array sementara untuk menentukan masuk cluster mana
+            $tempCluster = array();
+            // array yang berisikan nilai satu mahasiswa
+            $nilaiMhs = $valueMhs['nilai'];
+            // looping sebanyak nilai mahasiswa
+            foreach ($nilaiMhs as $keyNilaiMhs => $valueNilaiMhs) {
+                // array untuk menampung jarak
+                $arrJarak = array();
+                // looping sebanyak centroid
+                foreach ($this->currCentroid as $keyCen => $valuCen) {
+                    // penampung jarak
+                    $jarak = 0;
+                    // array yang berisikan nilai pada centroid
+                    $nilaiCen = $valuCen['nilai'];
+                    // looping sebanyak nilai centroid
+                    foreach ($nilaiCen as $keyNilaiCen => $valueNilaiCen) {
+                        // cek apakah pada mata pelajaran yang sama atau tidak
                         if (
-                            $nMhs['id_mata_pelajaran'] == 1 && $nCen['id_mata_pelajaran'] == 1
-                            || $nMhs['id_mata_pelajaran'] == 3 && $nCen['id_mata_pelajaran'] == 3
+                            $valueNilaiMhs['id_mata_pelajaran'] == 1 && $valueNilaiCen['id_mata_pelajaran'] == 1
+                            ||
+                            $valueNilaiMhs['id_mata_pelajaran'] == 3 && $valueNilaiCen['id_mata_pelajaran'] == 3
                         ) {
-                            $distance = $this->euclidianceDistance($nMhs, $nCen);
-                        } else if ($nMhs['id_mata_pelajaran'] < $nCen['id_mata_pelajaran']) {
+                            // hitung jarak dengan euclidian distance
+                            $jarak = $this->euclidianceDistance($valueNilaiMhs, $valueNilaiCen);
+                        } else if ($valueNilaiMhs['id_mata_pelajaran'] < $valueNilaiCen['id_mata_pelajaran']) {
                             break;
                         }
                     }
-                    // memasukkan distance antara data mhs dengan centroid
-                    array_push($arrDistance, $distance);
+                    // memasukkan jarak antara mhs(nilai) dengan centroid(nilai)
+                    // index 0 nilai dengan mata pelajaran mtk (1)
+                    // index 1 nilai dengan mata pelajaran ing (3)
+                    array_push($arrJarak, $jarak);
                 }
-                if (empty($tempArray)) {
-                    array_push($tempArray, $arrDistance);
+                // cek apakah tempCluster kosong
+                if (empty($tempCluster)) {
+                    array_push($tempCluster, $arrJarak);
                 } else {
-                    $tempArray[0][0] += $arrDistance[0];
-                    $tempArray[0][0] = sqrt($tempArray[0][0]);
-
-                    $tempArray[0][1] += $arrDistance[1];
-                    $tempArray[0][1] = sqrt($tempArray[0][1]);
+                    // menghitung jarak sebenarnya
+                    for ($i = 0; $i < $this->k; $i++) {
+                        $tempCluster[0][$i] += $arrJarak[$i];
+                        $tempCluster[0][$i] = sqrt($tempCluster[0][$i]);
+                    }
                 }
             }
-            // mendapatkan index untuk nilai minimum
-            // untuk menentukan dia masuk ke cluster mana
-            $cluester = array_keys($tempArray[0], min($tempArray[0]))[0];
-            array_push($tempArray[0], $cluester, $mhs['id_user']);
+            // menentukan mhs masuk pada cluster mana
+            $c = array_keys($tempCluster[0], min($tempCluster[0]))[0];
+            array_push($tempCluster[0], $c, $valueMhs['id_user']);
+
             // mengubah key index array
-            $tempArray[0]['id_user'] = $tempArray[0][$this->k+1];
-            unset($tempArray[0][$this->k+1]);
+            $tempCluster[0]['id_user'] = $tempCluster[0][$this->k + 1];
+            unset($tempCluster[0][$this->k + 1]);
+
+            // memasukkan mhs ke array hasil
+            array_push($this->cluster[$c], $valueMhs);
 
             // memasukkan kedalam array hasil
-            array_push($res, $tempArray[0]);
-            $i++;
+            array_push($result, $tempCluster[0]);
         }
-        // isinya d ke c0, c1, ... ,cn, cluster (index = k), id_user(index = k+1);
-        return $res;
+        return $result;
     }
 
     // parameter berisikan array of nilai satu mata pelajaran
     private function euclidianceDistance($mhs, $centroid)
     {
         // asumsi itung yang beririsan aja
-        $res  = 0;
+        $result  = 0;
         for ($i = 0; $i < 4; $i++) {
-            $res += pow($mhs[$i] - $centroid[$i], 2);
+            $result += pow($mhs[$i] - $centroid[$i], 2);
         }
-        $res += pow($mhs['AVG'] - $centroid['AVG'], 2);
-        return $res;
+        $result += pow($mhs['AVG'] - $centroid['AVG'], 2);
+        return $result;
     }
 
-    private function calculateNewCentroid($distance)
+    private function hitungCentroidBaru()
     {
-
+        // mengisi centroid sebelumnya dengan centroid saat ini
         $this->prevCentroid = $this->currCentroid;
-        // untuk index cluster
-        $idx = 0;
-        $newArr = array();
-        $count = array();
-        // looping untuk tiap centroid
-        foreach ($this->currCentroid  as $key => $nMhs) {
-            // $newArr = array();
-            $nilaiCen = $nMhs['nilai'];
-            // loping untuk tiap nilai di cen
-            foreach ($nilaiCen as $subKey => $nCen) {
-                $counter = 0;
-                // looping untuk tiap mahasiswa
-                foreach ($this->dataMahasiswa as $mhs) {
-                    $nilaiMhs = $mhs['nilai'];
-                    //looping untuk setiap nilai
-                    foreach ($nilaiMhs as $nMhs) {
-                        foreach ($distance as $dist) {
-                            if ($mhs['id_user'] == $dist['id_user'] && $dist[$this->k] == $key) {
-                                if (
-                                    $nCen['id_mata_pelajaran'] == 1 && $nMhs['id_mata_pelajaran'] == 1
-                                    ||
-                                    $nMhs['id_mata_pelajaran'] == 3 && $nCen['id_mata_pelajaran'] == 3
-                                ) {
-                                    $nCen = $this->add($nMhs, $nCen, $counter);
-                                    $counter++;
-                                    // print($mhs['id_user'] . " masuk pada cluster : " . $idx . " Jumlah anggota : " . $counter);
-                                    // echo "<br>";
+
+        // reset nilai curr centroid
+        $this->resetCentroid();
+        // print_r($this->currCentroid);
+
+        // looping sebanyak centroid
+        foreach ($this->currCentroid as $keyCen => $valuCen) {
+            // array yang berisikan nilai pada centroid
+            $nilaiCen = $valuCen['nilai'];
+            // looping sebanyak nilai centroid
+            foreach ($nilaiCen as $keyNilaiCen => $valueNilaiCen) {
+                // penampung untuk anggota pada cluster tertentu (sesuai index/key)
+                $anggota = $this->cluster[$keyCen];
+                if (count($anggota) != 0) {
+                    foreach ($anggota as $keyAnggota => $valueAnggota) {
+                        // penampung untuk nilai anggota
+                        $nilaiAnggota = $valueAnggota['nilai'];
+                        foreach ($nilaiAnggota as $keyNilaiAnggota => $valueNilaiAnggota) {
+                            if (
+                                $valueNilaiCen['id_mata_pelajaran'] == 1 && $valueNilaiAnggota['id_mata_pelajaran'] == 1
+                                ||
+                                $valueNilaiCen['id_mata_pelajaran'] == 3 && $valueNilaiAnggota['id_mata_pelajaran'] == 3
+                            ) {
+                                // update nilai 101, 102, 111, 112
+                                for ($i = 0; $i < 4; $i++) {
+                                    $nilaiLama = $this->currCentroid[$keyCen]['nilai'][$keyNilaiCen][$i];
+                                    $nilaiBaru = $anggota[$keyAnggota]['nilai'][$keyNilaiAnggota][$i];
+
+                                    $this->updateNilai($keyCen, $keyNilaiCen, $nilaiLama, $nilaiBaru, $i);
                                 }
+
+                                // update nilai avg
+                                $nilaiLama = $this->currCentroid[$keyCen]['nilai'][$keyNilaiCen]['AVG'];
+                                $nilaiBaru = $anggota[$keyAnggota]['nilai'][$keyNilaiAnggota]['AVG'];
+                                $this->updateNilai($keyCen, $keyNilaiCen, $nilaiLama, $nilaiBaru, 'AVG');
                             }
                         }
                     }
+                } else {
+                    // random nilai baru
+                    $this->randomNilaiBaru($keyCen, $keyNilaiCen);
+                    print_r($this->currCentroid[$keyCen]);
+                    echo "<br>";
+                    echo "<br>";
                 }
-                // memasukkan cCen yang sesuai dengan centroid
-                array_push($newArr, $nCen);
-                // break;
             }
-            // memasukkan counter ke dalam array, untuk membantu proses perhitungan centroid baru
-            array_push($count, $counter);
-            // break;
-            $idx++;
         }
 
-        // ubah data
-        $this->newCentroid($newArr, $count);
+        $this->hitungRata2();
+        // print_r($this->currCentroid);
     }
 
-    // menambahkan nilai untuk centroid baru
-    private function add($nilaiMhs, $nilaiCentroid, $counter)
+    private function resetCentroid()
     {
+        foreach ($this->currCentroid as $keyCen => $valuCen) {
+            // array yang berisikan nilai pada centroid
+            $nilaiCen = $valuCen['nilai'];
+            // looping sebanyak nilai centroid
+            foreach ($nilaiCen as $keyNilaiCen => $valueNilaiCen) {
+                for ($i = 0; $i < 4; $i++) {
+                    $this->currCentroid[$keyCen]['nilai'][$keyNilaiCen][$i] = 0;
+                }
+                // update nilai avg
+                $this->currCentroid[$keyCen]['nilai'][$keyNilaiCen]['AVG'] = 0;
+            }
+        }
+    }
+
+    private function updateNilai($keyCen, $keyNilaiCen, $nilaiLama, $nilaiBaru, $i)
+    {
+        $nilai = $nilaiLama + $nilaiBaru;
+        $this->currCentroid[$keyCen]['nilai'][$keyNilaiCen][$i] = $nilai;
+    }
+
+    private function hitungRata2()
+    {
+        foreach ($this->currCentroid as $keyCen => $valuCen) {
+            // array yang berisikan nilai pada centroid
+            $nilaiCen = $valuCen['nilai'];
+            // looping sebanyak nilai centroid
+            $anggota = $this->cluster[$keyCen];
+            $count = count($anggota);
+            foreach ($nilaiCen as $keyNilaiCen => $valueNilaiCen) {
+                for ($i = 0; $i < 4; $i++) {
+                    $this->currCentroid[$keyCen]['nilai'][$keyNilaiCen][$i] = $this->currCentroid[$keyCen]['nilai'][$keyNilaiCen][$i] / $count;
+                }
+                // update nilai avg
+                $this->currCentroid[$keyCen]['nilai'][$keyNilaiCen]['AVG'] = $this->currCentroid[$keyCen]['nilai'][$keyNilaiCen]['AVG'] / $count;
+            }
+        }
+    }
+
+    private function randomNilaiBaru($keyCen, $keyNilaiCen)
+    {
+
         for ($i = 0; $i < 4; $i++) {
-            if ($counter == 0) {
-                $nilaiCentroid[$i] = $nilaiMhs[$i];
-            } else {
-                $nilaiCentroid[$i] += $nilaiMhs[$i];
-            }
+            $this->currCentroid[$keyCen]['nilai'][$keyNilaiCen][$i] = rand(1, 3) + rand(1, 10) / 10;
         }
-        if ($counter == 0) {
-            $nilaiCentroid['AVG'] = $nilaiMhs['AVG'];
-        } else {
-            $nilaiCentroid['AVG'] += $nilaiMhs['AVG'];
-        }
-
-        return $nilaiCentroid;
+        // update nilai avg
+        $this->currCentroid[$keyCen]['nilai'][$keyNilaiCen]['AVG'] = rand(1, 3) + rand(1, 10) / 10;
     }
 
-    // menghitung avg untuk centroid baru
-    private function calculateAVG($key, $subKey, $counter)
+    private function printHitungJarak($jarak)
     {
-        if ($counter != 0) {
-            for ($i = 0; $i < 4; $i++) {
-                $this->currCentroid[$key]['nilai'][$subKey][$i] = $this->currCentroid[$key]['nilai'][$subKey][$i] / $counter;
-            }
-            $this->currCentroid[$key]['nilai'][$subKey]['AVG'] = $this->currCentroid[$key]['nilai'][$subKey]['AVG'] / $counter;
-        }
-        // else{
-        //     $this->randomCentroid();
-        // }
-    }
-
-    // mengubah data centroid
-    private function newCentroid($newArr, $count)
-    {
-        $i = 0;
-        foreach ($this->currCentroid as $key => $value) {
-            $nilaiCen = $value['nilai'];
-            foreach ($nilaiCen as $subKey => $subValue) {
-                foreach ($newArr as $newA) {
-                    if ($subValue['id_nilai'] == $newA['id_nilai']) {
-                        $this->currCentroid[$key]['nilai'][$subKey] = $newA;
-                        $this->calculateAVG($key, $subKey, $count[$i]);
-                    }
-                }
-            }
-            $i++;
+        foreach ($jarak as $keyJarak => $valueJarak) {
+            print_r($valueJarak);
+            echo "<br>";
+            echo "<br>";
         }
     }
 
-    private function calculateThreshold()
+    private function printCluster()
     {
-        $res = false;
-        foreach ($this->currCentroid as $key => $value) {
-            $nilaiCen = $value['nilai'];
-            foreach ($nilaiCen as $subKey => $subValue) {
-                if ($this->currCentroid[$key]['nilai'][$subKey]['id_mata_pelajaran'] == $this->prevCentroid[$key]['nilai'][$subKey]['id_mata_pelajaran']) {
-                    if (
-                        $this->currCentroid[$key]['nilai'][$subKey][0] - $this->prevCentroid[$key]['nilai'][$subKey][0] == 0 &&
-                        $this->currCentroid[$key]['nilai'][$subKey][1] - $this->prevCentroid[$key]['nilai'][$subKey][1] == 0 &&
-                        $this->currCentroid[$key]['nilai'][$subKey][2] - $this->prevCentroid[$key]['nilai'][$subKey][2] == 0 &&
-                        $this->currCentroid[$key]['nilai'][$subKey][3] - $this->prevCentroid[$key]['nilai'][$subKey][3] == 0 &&
-                        $this->currCentroid[$key]['nilai'][$subKey]['AVG'] - $this->prevCentroid[$key]['nilai'][$subKey]['AVG'] == 0
-                    ) {
-                        $res = false;
-                    } else {
-                        $res = true;
-                    }
-                }
+        foreach ($this->cluster as $keyCluster => $valueCluster) {
+            print("CLUSTER " . $keyCluster);
+            echo "<br>";
+            echo "<br>";
+            foreach ($valueCluster as $v) {
+                print_r($v);
+                echo "<br>";
+                echo "<br>";
             }
         }
-        return $res;
     }
 }

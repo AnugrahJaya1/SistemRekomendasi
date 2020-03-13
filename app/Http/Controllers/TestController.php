@@ -18,7 +18,7 @@ class TestController extends Controller
         // data mahasiswa
         $mhs = $mahasiswa->index("IPS")->toArray();
 
-        $kMeans = new KMeansController(3, $mhs);
+        $kMeans = new KMeansController(2, $mhs);
 
         return view('/test',['mahasiswa'=>$mhs]);
     }
