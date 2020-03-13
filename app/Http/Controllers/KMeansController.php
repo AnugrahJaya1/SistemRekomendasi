@@ -6,10 +6,12 @@ use Illuminate\Http\Request;
 
 class KMeansController extends Controller
 {
-    private $currCentroid, $prevCentroid;
+    public $currCentroid;
+    private $prevCentroid;
     private $k;
-    private $cluster;
+    public $cluster;
     private $mahasiswa;
+    private $J0, $J1;
 
     function __construct($k, $dataMahasiswa)
     {
@@ -18,16 +20,10 @@ class KMeansController extends Controller
         $this->inisialisasiCluster();
         $this->currCentroid = array();
 
+        $this->J0 = 100;
+
         $this->pilihCentroid();
         // print(count($this->currCentroid));
-
-
-        print_r($this->currCentroid);
-        echo "<br>";
-        echo "<br>";
-        echo "<br>";
-        echo "<br>";
-
 
         $this->hitungJarak();
         // $this->printHitungJarak($jarak);
@@ -37,19 +33,15 @@ class KMeansController extends Controller
         $idx = 0;
         while ($status) {
             $this->hitungCentroidBaru();
-
-            print_r($this->currCentroid);
-            echo "<br>";
-            echo "<br>";
-
             $idx++;
-            print($idx);
-            echo "<br>";
-            if ($idx == 10) {
-                $status = false;
-            }
+            // print($idx);
+            // echo "<br>";
+            $status = $this->cekBatas();
             $this->hitungJarak();
         }
+
+        print($idx);
+        echo "<br>";
     }
 
     private function inisialisasiCluster()
@@ -65,38 +57,39 @@ class KMeansController extends Controller
     // yang akan dijadikan centroid
     private function pilihCentroid()
     {
-        // for ($i = 0; $i < $this->k; $i++) {
-        //     // random secara acak key(idx) mahasiswa
-        //     $key = rand(0, 1739);
-        //     // cek apakah ada key(idx) pada mahasiswa
-        //     if (array_key_exists($key, $this->mahasiswa)) {
-        //         // cek apakah ada key(idx) pada currCentroid
-        //         if (!array_key_exists($key, $this->currCentroid)) {
-        //             array_push($this->currCentroid, $this->mahasiswa[$key]);
-        //         } else {
-        //             $i--;
-        //         }
-        //     } else {
-        //         $i--;
-        //     }
-        // }
+        for ($i = 0; $i < $this->k; $i++) {
+            // random secara acak key(idx) mahasiswa
+            $key = rand(0, 1739);
+            // cek apakah ada key(idx) pada mahasiswa
+            if (array_key_exists($key, $this->mahasiswa)) {
+                // cek apakah ada key(idx) pada currCentroid
+                if (!array_key_exists($key, $this->currCentroid)) {
+                    array_push($this->currCentroid, $this->mahasiswa[$key]);
+                } else {
+                    $i--;
+                }
+            } else {
+                $i--;
+            }
+        }
 
         // untuk testing
-        array_push($this->currCentroid, $this->mahasiswa[1]);
-        // print_r($this->dataMahasiswa[1]);
-        // echo "<br>";
-        // echo "<br>";
+        // array_push($this->currCentroid, $this->mahasiswa[1]);
+        // // print_r($this->dataMahasiswa[1]);
+        // // echo "<br>";
+        // // echo "<br>";
 
-        array_push($this->currCentroid, $this->mahasiswa[5]);
-        // print_r($this->dataMahasiswa[5]);
-        // echo "<br>";
-        // echo "<br>";
+        // array_push($this->currCentroid, $this->mahasiswa[5]);
+        // // print_r($this->dataMahasiswa[5]);
+        // // echo "<br>";
+        // // echo "<br>";
     }
 
     // fungsi untuk menghitung jarak untuk untuk 
     // mata pelajaran mtk (1) dan ing (3)
     private function hitungJarak()
     {
+        $this->J1 = 0;
         $result = array();
         // looping sebanyak mahasiswa
         foreach ($this->mahasiswa as $keyMhs => $valueMhs) {
@@ -138,6 +131,7 @@ class KMeansController extends Controller
                     array_push($tempCluster, $arrJarak);
                 } else {
                     // menghitung jarak sebenarnya
+                    // dari dua nilai
                     for ($i = 0; $i < $this->k; $i++) {
                         $tempCluster[0][$i] += $arrJarak[$i];
                         $tempCluster[0][$i] = sqrt($tempCluster[0][$i]);
@@ -146,11 +140,14 @@ class KMeansController extends Controller
             }
             // menentukan mhs masuk pada cluster mana
             $c = array_keys($tempCluster[0], min($tempCluster[0]))[0];
+
+            $this->J1 += $tempCluster[0][$c];
+
             array_push($tempCluster[0], $c, $valueMhs['id_user']);
 
             // mengubah key index array
-            $tempCluster[0]['id_user'] = $tempCluster[0][$this->k + 1];
-            unset($tempCluster[0][$this->k + 1]);
+            $tempCluster[0]['id_user'] = $tempCluster[0][$this->k+1];
+            unset($tempCluster[0][$this->k+1]);
 
             // memasukkan mhs ke array hasil
             array_push($this->cluster[$c], $valueMhs);
@@ -277,6 +274,19 @@ class KMeansController extends Controller
         }
         // update nilai avg
         $this->currCentroid[$keyCen]['nilai'][$keyNilaiCen]['AVG'] = rand(1, 3) + rand(1, 10) / 10;
+    }
+
+    public function cekBatas()
+    {
+        $batas = abs($this->J0 - $this->J1);
+
+        if ($batas < 0.1) {
+            return false;
+        }
+
+        $this->J0 = $this->J1;
+
+        return true;
     }
 
     private function printHitungJarak($jarak)
