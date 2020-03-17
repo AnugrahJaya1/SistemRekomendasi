@@ -28,7 +28,9 @@ class PearsonCorrelationController extends Controller
         // looping sebanyak nilai
         foreach ($nilaiSiswa as $nSiswa) {
             $idMP = $nSiswa['id_mata_pelajaran'];
+            // looping sebanyak nilai mahasiswa pada index
             foreach ($nilaiMhs as $nMhs) {
+                // hanya menghitung mata pelajaran yang beririsan
                 if ($idMP == $nMhs['id_mata_pelajaran']) {
                     for ($i = 0; $i < 4; $i++) {
                         //mahasiswa * siswa
@@ -56,7 +58,9 @@ class PearsonCorrelationController extends Controller
         // looping sebanyak nilai
         foreach ($nilaiSiswa as $nSiswa) {
             $idMP = $nSiswa['id_mata_pelajaran'];
+            // looping sebanyak nilai mahasiswa pada index
             foreach ($nilaiMhs as $nMhs) {
+                // hanya menghitung mata pelajaran yang beririsan
                 if ($idMP == $nMhs['id_mata_pelajaran']) {
                     for ($i = 0; $i < 4; $i++) {
                         $sdMhs += pow($nMhs[$i] - $nMhs['AVG'], 2);

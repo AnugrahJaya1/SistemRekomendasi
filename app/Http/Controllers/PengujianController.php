@@ -67,6 +67,8 @@ class PengujianController extends Controller
                 // menjadi anggota satu cluster dengan siswa
                 $dataTrain = $kmeans->getCluster($cluster);
 
+                // $dataTrain = $this->train;
+
                 $pearon = $this->pc->calculatePearson($dataTrain, $t);
 
                 $predict = $this->pc->calculatePredict($pearon);
