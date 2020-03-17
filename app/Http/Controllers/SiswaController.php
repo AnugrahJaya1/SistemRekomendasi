@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\PearsonCorrelationController;
 use App\Http\Controllers\MahasiswaController;
+use App\Http\Controllers\KMeansController;
 
 class SiswaController extends Controller
 {
@@ -30,6 +31,16 @@ class SiswaController extends Controller
         $mahasiswa = new MahasiswaController();
         // data mahasiswa
         $mhs = $mahasiswa->index($siswa["btn"])->toArray();
+        // inisialisasi kmeans
+        $kmeans = new KMeansController(2, $mhs);
+
+        // hitung jarak siswa dengan centroid 
+        // mengembalikan siswa masuk dalam cluster mana
+        $cluster = $kmeans->hitungJarakSiswa($siswa);
+
+        // mengubah data mhs dari seluruh mhs
+        // menjadi anggota satu cluster dengan siswa
+        $mhs = $kmeans->getCentroid($cluster);
 
         // inisialisasi controller pearson correlation
         $pc = new PearsonCorrelationController();

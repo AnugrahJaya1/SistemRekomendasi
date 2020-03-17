@@ -23,9 +23,8 @@ class KMeansController extends Controller
         $this->J0 = 100;
 
         $this->pilihCentroid();
-        // print(count($this->currCentroid));
-
-        $this->hitungJarak();
+        
+        $this->hitungJarakMhs();
         // $this->printHitungJarak($jarak);
         // $this->printCluster();
 
@@ -37,11 +36,8 @@ class KMeansController extends Controller
             // print($idx);
             // echo "<br>";
             $status = $this->cekBatas();
-            $this->hitungJarak();
+            $this->hitungJarakMhs();
         }
-
-        print($idx);
-        echo "<br>";
     }
 
     private function inisialisasiCluster()
@@ -87,10 +83,9 @@ class KMeansController extends Controller
 
     // fungsi untuk menghitung jarak untuk untuk 
     // mata pelajaran mtk (1) dan ing (3)
-    private function hitungJarak()
+    private function hitungJarakMhs()
     {
         $this->J1 = 0;
-        $result = array();
         // looping sebanyak mahasiswa
         foreach ($this->mahasiswa as $keyMhs => $valueMhs) {
             // array sementara untuk menentukan masuk cluster mana
@@ -146,16 +141,62 @@ class KMeansController extends Controller
             array_push($tempCluster[0], $c, $valueMhs['id_user']);
 
             // mengubah key index array
-            $tempCluster[0]['id_user'] = $tempCluster[0][$this->k+1];
-            unset($tempCluster[0][$this->k+1]);
+            $tempCluster[0]['id_user'] = $tempCluster[0][$this->k + 1];
+            unset($tempCluster[0][$this->k + 1]);
 
             // memasukkan mhs ke array hasil
             array_push($this->cluster[$c], $valueMhs);
-
-            // memasukkan kedalam array hasil
-            array_push($result, $tempCluster[0]);
         }
-        return $result;
+    }
+
+    public function hitungJarakSiswa($siswa)
+    {
+        $nilaiSiswa = $siswa['nilai'];
+        $tempCluster = array();
+        // looping untuk nilai siswa
+        foreach ($nilaiSiswa as $keyNilaiSiswa => $valueNilaiSiswa) {
+            $arrJarak = array();
+            // looping sebanyak centroid
+            foreach ($this->currCentroid as $keyCen => $valuCen) {
+                // penampung jarak
+                $jarak = 0;
+                // array yang berisikan nilai pada centroid
+                $nilaiCen = $valuCen['nilai'];
+                // looping sebanyak nilai centroid
+                foreach ($nilaiCen as $keyNilaiCen => $valueNilaiCen) {
+                    // cek apakah pada mata pelajaran yang sama atau tidak
+                    if (
+                        $valueNilaiSiswa['id_mata_pelajaran'] == 1 && $valueNilaiCen['id_mata_pelajaran'] == 1
+                        ||
+                        $valueNilaiSiswa['id_mata_pelajaran'] == 3 && $valueNilaiCen['id_mata_pelajaran'] == 3
+                    ) {
+                        // hitung jarak dengan euclidian distance
+                        $jarak = $this->euclidianceDistance($valueNilaiSiswa, $valueNilaiCen);
+                    } else if ($valueNilaiSiswa['id_mata_pelajaran'] < $valueNilaiCen['id_mata_pelajaran']) {
+                        break;
+                    }
+                }
+                // memasukkan jarak antara mhs(nilai) dengan centroid(nilai)
+                // index 0 nilai dengan mata pelajaran mtk (1)
+                // index 1 nilai dengan mata pelajaran ing (3)
+                array_push($arrJarak, $jarak);
+            }
+            // cek apakah tempCluster kosong
+            if (empty($tempCluster)) {
+                array_push($tempCluster, $arrJarak);
+            } else {
+                // menghitung jarak sebenarnya
+                // dari dua nilai
+                for ($i = 0; $i < $this->k; $i++) {
+                    $tempCluster[0][$i] += $arrJarak[$i];
+                    $tempCluster[0][$i] = sqrt($tempCluster[0][$i]);
+                }
+            }
+        }
+        // menentukan mhs masuk pada cluster mana
+        $res = array_keys($tempCluster[0], min($tempCluster[0]))[0];
+
+        return $res;
     }
 
     // parameter berisikan array of nilai satu mata pelajaran
@@ -287,6 +328,10 @@ class KMeansController extends Controller
         $this->J0 = $this->J1;
 
         return true;
+    }
+
+    public function getCentroid($idx){
+        return $this->cluster[$idx];
     }
 
     private function printHitungJarak($jarak)

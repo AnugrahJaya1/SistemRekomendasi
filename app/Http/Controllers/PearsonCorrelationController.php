@@ -135,6 +135,7 @@ class PearsonCorrelationController extends Controller
         return $res;
     }
 
+    // memasukkan hasil prediksi kedalam array
     private function insertData($res, $a, $b, $id_prodi)
     {
         $pred = $a / $b;
