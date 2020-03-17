@@ -40,7 +40,7 @@ class SiswaController extends Controller
 
         // mengubah data mhs dari seluruh mhs
         // menjadi anggota satu cluster dengan siswa
-        $mhs = $kmeans->getCentroid($cluster);
+        $mhs = $kmeans->getCluster($cluster);
 
         // inisialisasi controller pearson correlation
         $pc = new PearsonCorrelationController();

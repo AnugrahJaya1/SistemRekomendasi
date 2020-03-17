@@ -330,7 +330,7 @@ class KMeansController extends Controller
         return true;
     }
 
-    public function getCentroid($idx){
+    public function getCluster($idx){
         return $this->cluster[$idx];
     }
 
