@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\MahasiswaController;
 use Phpml\CrossValidation\RandomSplit;
+use App\Http\Controllers\KMeansController;
+use App\Http\Controllers\PearsonCorrelationPengujianController;
 
-use App\Http\Controllers\PearsonCorrelationController2;
 
 use Phpml\Dataset\ArrayDataset;
 
@@ -21,7 +22,7 @@ class PengujianController extends Controller
     function __construct(Request $request)
     {
         $id_jurusan = $request->input();
-        
+
         $mhs = new MahasiswaController();
         $data = $mhs->index($id_jurusan["btn"])->toArray();
 
@@ -50,13 +51,23 @@ class PengujianController extends Controller
     {
         $result = array();
         $this->pc = new PearsonCorrelationPengujianController();
+        $kmeans = new KMeansController(2, $this->train);
 
         // test = siswa
         foreach ($this->test as $t) {
             // biar tidak ada duplikat
             if (!array_key_exists($t["NPM"], $result)) {
                 $temp = array();
-                $pearon = $this->pc->calculatePearson($this->train, $t);
+
+                // hitung jarak siswa dengan centroid 
+                // mengembalikan siswa masuk dalam cluster mana
+                $cluster = $kmeans->hitungJarakSiswa($t);
+
+                // mengubah data mhs dari seluruh mhs
+                // menjadi anggota satu cluster dengan siswa
+                $dataTrain = $kmeans->getCluster($cluster);
+
+                $pearon = $this->pc->calculatePearson($dataTrain, $t);
 
                 $predict = $this->pc->calculatePredict($pearon);
 
@@ -92,5 +103,4 @@ class PengujianController extends Controller
         $rmse = $this->accuracy->calculateRMSE($this->error2);
         return view('/pengujian', ['status' => TRUE, 'result' => $result, 'mae' => $mae, 'rmse' => $rmse]);
     }
-
 }
