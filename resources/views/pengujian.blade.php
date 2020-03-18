@@ -62,37 +62,37 @@
     <table align="center" class="table table-striped table-bordered">
         <?php
         $status ?? '';
-        if($status ?? '' ){
+        if ($status ?? '') {
             if ($metode == 'Basic') {
                 // UNTUK AKURASI
                 echo "<tr>";
                 echo "<th style=width: 5%>No</th>";
                 echo "<th> MAE </th>";
                 echo "<th> RMSE </th>";
-                echo "<th> Time (Sec) </th>";
+                echo "<th> Time (Mic Sec) </th>";
                 echo "</tr>";
-    
+
                 echo "<tr>";
                 echo "<td>" . 1 . "</td>";
                 echo "<td>" . $mae . "</td>";
                 echo "<td>" . $rmse . "</td>";
                 echo "<td>" . $times . "</td>";
                 echo "</tr>";
-    
-    
+
+
                 // UNTUK BAGIAN DETAIL
                 //     print("MEAN ABSOLUTE ERROR = " . $mae);
                 //     echo "<br>";
                 //     echo "<br>";
-    
+
                 //     print("ROOT MEAN SQUARE ERROR = " . $rmse);
                 //     echo "<br>";
                 //     echo "<br>";
-    
+
                 //     print("EXECUTION TIME = " . $times);
                 //     echo "<br>";
                 //     echo "<br>";
-    
+
                 //     echo "<tr>";
                 //     echo "<th style=width: 5%>No</th>";
                 //     echo "<th>NPM</th>";
@@ -102,8 +102,8 @@
                 //     echo "<th>Error MAE</th>";
                 //     echo "<th>Error RMSE</th>";
                 //     echo "</tr>";
-    
-    
+
+
                 //     $i = 1;
                 //     foreach ($result as $res) {
                 //         echo "<tr>";
@@ -124,8 +124,8 @@
                 echo "<th> RMSE </th>";
                 echo "<th> Time (Mic Sec) </th>";
                 echo "</tr>";
-    
-                    // print_r($maeArr);
+
+                // print_r($maeArr);
                 $k = 2;
                 foreach ($maeArr as $idx => $value) {
                     echo "<tr>";

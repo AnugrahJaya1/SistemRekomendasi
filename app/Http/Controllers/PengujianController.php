@@ -55,7 +55,7 @@ class PengujianController extends Controller
         if ($this->metode == 'Basic') {
             return $this->pengujianBasic();
         } else {
-            return $this->pengujianKmeans(5, 10);
+            return $this->pengujianKmeans(5, 5);
         }
     }
 
@@ -71,14 +71,14 @@ class PengujianController extends Controller
         for ($k = 2; $k <= $bts; $k++) {
             $start = microtime(true);
 
-            $this->error1 = array();
-            $this->error2 = array();
-
             $tempMae = 0;
             $tempRmse = 0;
             // untuk pengujian sebanyak 30 centroid yang berbeda
             for ($i = 0; $i < $n; $i++) {
                 $kmeans = new KMeansController($k, $this->train);
+
+                $this->error1 = array();
+                $this->error2 = array();
                 // test = siswa
                 foreach ($this->test as $t) {
                     // biar tidak ada duplikat
@@ -143,7 +143,7 @@ class PengujianController extends Controller
         return view('/pengujian', [
             'status' => TRUE, 'result' => $result,
             'maeArr' => $maeArr, 'rmseArr' => $rmseArr,
-            'timesArr' => $timesArr, 'metode'=>$this->metode
+            'timesArr' => $timesArr, 'metode' => $this->metode
         ]);
     }
 
@@ -201,7 +201,7 @@ class PengujianController extends Controller
         return view('/pengujian', [
             'status' => TRUE, 'result' => $result,
             'mae' => $mae, 'rmse' => $rmse,
-            'times' => $times, 'metode'=>$this->metode
+            'times' => $times, 'metode' => $this->metode
         ]);
     }
 }
