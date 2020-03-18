@@ -23,7 +23,7 @@ class KMeansController extends Controller
         $this->J0 = 100;
 
         $this->pilihCentroid();
-        
+
         $this->hitungJarakMhs();
         // $this->printHitungJarak($jarak);
         // $this->printCluster();
@@ -256,9 +256,9 @@ class KMeansController extends Controller
                 } else {
                     // random nilai baru
                     $this->randomNilaiBaru($keyCen, $keyNilaiCen);
-                    print_r($this->currCentroid[$keyCen]);
-                    echo "<br>";
-                    echo "<br>";
+                    // print_r($this->currCentroid[$keyCen]);
+                    // echo "<br>";
+                    // echo "<br>";
                 }
             }
         }
@@ -297,12 +297,14 @@ class KMeansController extends Controller
             // looping sebanyak nilai centroid
             $anggota = $this->cluster[$keyCen];
             $count = count($anggota);
-            foreach ($nilaiCen as $keyNilaiCen => $valueNilaiCen) {
-                for ($i = 0; $i < 4; $i++) {
-                    $this->currCentroid[$keyCen]['nilai'][$keyNilaiCen][$i] = $this->currCentroid[$keyCen]['nilai'][$keyNilaiCen][$i] / $count;
+            if ($count != 0) {
+                foreach ($nilaiCen as $keyNilaiCen => $valueNilaiCen) {
+                    for ($i = 0; $i < 4; $i++) {
+                        $this->currCentroid[$keyCen]['nilai'][$keyNilaiCen][$i] = $this->currCentroid[$keyCen]['nilai'][$keyNilaiCen][$i] / $count;
+                    }
+                    // update nilai avg
+                    $this->currCentroid[$keyCen]['nilai'][$keyNilaiCen]['AVG'] = $this->currCentroid[$keyCen]['nilai'][$keyNilaiCen]['AVG'] / $count;
                 }
-                // update nilai avg
-                $this->currCentroid[$keyCen]['nilai'][$keyNilaiCen]['AVG'] = $this->currCentroid[$keyCen]['nilai'][$keyNilaiCen]['AVG'] / $count;
             }
         }
     }
@@ -330,7 +332,8 @@ class KMeansController extends Controller
         return true;
     }
 
-    public function getCluster($idx){
+    public function getCluster($idx)
+    {
         return $this->cluster[$idx];
     }
 
