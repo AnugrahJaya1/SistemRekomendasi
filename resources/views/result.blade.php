@@ -17,7 +17,7 @@
         <?php
         $i = 1;
         // print_r($predict);
-        foreach ($predict as $id_prodi => $value) {
+        foreach ($result as $id_prodi => $value) {
             echo "<tr>";
             echo "<td>" . $i . "</td>";
             echo "<td>" . $value[1]. "</td>";

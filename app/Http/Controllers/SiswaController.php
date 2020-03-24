@@ -42,16 +42,16 @@ class SiswaController extends Controller
         // menjadi anggota satu cluster dengan siswa
         $mhs = $kmeans->getCluster($cluster);
 
-        // inisialisasi controller pearson correlation
-        $pc = new PearsonCorrelationController();
-        // melakukan perhitungan kemiripan
-        $pearson = $pc->calculatePearson($mhs, $siswa);
-        // menghitung prediksi
-        $predict = $pc->calculatePredict($pearson);
+        // inisialisasi userBasedModel
+        $userBasedModel = new UserBasedModelController($mhs, $siswa);
+        
+        $result = $userBasedModel->getResult();
 
-        return view('/result', ['predict' => $predict, 'pearson' => $pearson]);
+        return view('/result', ['result' => $result]);
     }
 
+    // mengubah data siswa dari form 
+    // menjadi array dengan format mengikuti array mahasiswa
     private function dataSiswa($data)
     {
         $i = 1;

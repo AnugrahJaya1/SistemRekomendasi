@@ -16,6 +16,7 @@ class PengujianController extends Controller
 
     protected $train, $test;
     protected $pc;
+    private $userBasedModel;
     protected $error1, $error2;
     protected $accuracy;
     protected $metode;
@@ -47,7 +48,9 @@ class PengujianController extends Controller
 
         $this->accuracy = new AccuracyController();
 
-        $this->pc = new PearsonCorrelationPengujianController();
+        // $this->pc = new PearsonCorrelationPengujianController();
+
+        $this->userBasedModel = new UserBasedModelController(null, null, 1);
     }
 
     public function index()
@@ -55,7 +58,8 @@ class PengujianController extends Controller
         if ($this->metode == 'Basic') {
             return $this->pengujianBasic();
         } else {
-            return $this->pengujianKmeans(5, 5);
+            // k, looping dataset sebannyak n
+            return $this->pengujianKmeans(5, 2);
         }
     }
 
@@ -95,9 +99,9 @@ class PengujianController extends Controller
 
                         // $dataTrain = $this->train;
 
-                        $pearon = $this->pc->calculatePearson($dataTrain, $t);
+                        $pearon = $this->userBasedModel->calculateSimilarity($dataTrain, $t);
 
-                        $predict = $this->pc->calculatePredict($pearon);
+                        $predict = $this->userBasedModel->calculatePredict($pearon);
 
                         // print_r($predict);
                         if ($predict != null) {
@@ -162,9 +166,9 @@ class PengujianController extends Controller
 
                 $dataTrain = $this->train;
 
-                $pearon = $this->pc->calculatePearson($dataTrain, $t);
+                $pearon = $this->userBasedModel->calculateSimilarity($dataTrain, $t);
 
-                $predict = $this->pc->calculatePredict($pearon);
+                $predict = $this->userBasedModel->calculatePredict($pearon);
 
                 // print_r($predict);
                 if ($predict != null) {
