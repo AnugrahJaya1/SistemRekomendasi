@@ -12,7 +12,7 @@ class Nilai extends Model
     protected $fillable =[
         'id_nilai',
         'id_mata_pelajaran',
-        'id_user',
+        'id_mahasiswa',
         '101',
         '102',
         '111',
@@ -21,7 +21,7 @@ class Nilai extends Model
     ];
 
     public function mahasiswa(){
-        return $this->belongsTo('App\Nilai','id_user','id_user');
+        return $this->belongsTo('App\Nilai','id_mahasiswa','id_mahasiswa');
     }
 
     public function mata_pelajaran(){

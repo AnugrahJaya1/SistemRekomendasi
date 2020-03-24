@@ -138,10 +138,10 @@ class KMeansController extends Controller
 
             $this->J1 += $tempCluster[0][$c];
 
-            array_push($tempCluster[0], $c, $valueMhs['id_user']);
+            array_push($tempCluster[0], $c, $valueMhs['id_mahasiswa']);
 
             // mengubah key index array
-            $tempCluster[0]['id_user'] = $tempCluster[0][$this->k + 1];
+            $tempCluster[0]['id_mahasiswa'] = $tempCluster[0][$this->k + 1];
             unset($tempCluster[0][$this->k + 1]);
 
             // memasukkan mhs ke array hasil

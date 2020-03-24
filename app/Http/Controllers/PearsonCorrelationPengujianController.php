@@ -93,8 +93,8 @@ class PearsonCorrelationPengujianController extends Controller
                 // atur threshold
                 if ($sim > 0) {
                     // inisialisai array agar tidak null
-                    $res[$mhs['id_user']] = array();
-                    array_push($res[$mhs['id_user']], $sim, $id_prodi, $IPK);
+                    $res[$mhs['id_mahasiswa']] = array();
+                    array_push($res[$mhs['id_mahasiswa']], $sim, $id_prodi, $IPK);
                 }
             }
         }
@@ -110,8 +110,8 @@ class PearsonCorrelationPengujianController extends Controller
         // b = Sigma(sim)
         $b = 0;
         // pred = a/b
-        // id_user -> sim, id_prodi, IPK, avgMhs, avgSiswa 
-        foreach ($pearson as $id_user => $value) {
+        // id_mhs -> sim, id_prodi, IPK, avgMhs, avgSiswa 
+        foreach ($pearson as $id_mhs => $value) {
             $a += $value[0] * $value[2];
             $b += $value[0];
 

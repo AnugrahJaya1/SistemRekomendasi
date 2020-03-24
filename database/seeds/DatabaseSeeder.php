@@ -12,9 +12,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(
-            Jurusan_SMA::class,
-            Fakultas::class,
-            Program_Studi::class
+            [
+                Jurusan_SMA::class,
+                Fakultas::class,
+                Program_Studi::class,
+                Mata_Pelajaran::class
+            ]
         );
     }
 }

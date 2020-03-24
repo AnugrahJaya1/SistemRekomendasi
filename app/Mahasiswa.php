@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Mahasiswa extends Model
 {
     protected $table = "mahasiswa";
-    protected $primaryKey = "id_user";
+    protected $primaryKey = "id_mahasiswa";
 
     protected $fillable = [
-        'id_user',
+        'id_mahasiswa',
         'NPM',
         'IPK',
         'id_jurusan',
@@ -27,6 +27,6 @@ class Mahasiswa extends Model
     }
 
     public function nilai(){
-        return $this->hasMany('App\Nilai','id_user','id_user');
+        return $this->hasMany('App\Nilai','id_mahasiswa','id_mahasiswa');
     }
 }

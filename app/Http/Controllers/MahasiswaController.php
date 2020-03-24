@@ -28,7 +28,7 @@ class MahasiswaController extends Controller
     }
 
     public function getDataMahasiswa($idJurusan){
-        $query = Mahasiswa::join('nilai', 'mahasiswa.id_user','=','nilai.id_user')
+        $query = Mahasiswa::join('nilai', 'mahasiswa.id_mahasiswa','=','nilai.id_mahasiswa')
         ->where(['id_jurusan'=> $idJurusan, 'Nilai.id_mata_pelajaran'=>1])
         ->orWhere(['id_jurusan'=> $idJurusan, 'Nilai.id_mata_pelajaran'=>3])->get();
         return $query;

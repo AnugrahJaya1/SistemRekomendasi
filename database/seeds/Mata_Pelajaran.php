@@ -26,7 +26,7 @@ class Mata_Pelajaran extends Seeder
         for ($i = 0; $i < count($this->mata_pelajaran); $i++) {
             DB::table("mata_pelajaran")->insert([
                 "id_mata_pelajaran" => $i + 1,
-                "nama_mata_pelajaran" => $this->nama_pelajaran[$i],
+                "nama_mata_pelajaran" => $this->mata_pelajaran[$i],
             ]);
         }
     }
