@@ -85,18 +85,11 @@
                     <input type="number" name="pkn112" min="0" max="100" step="any" required><br>
                 </td>
             </tr>
-            <tr>
-                <td colspan="4">
-                    <br>
-                    <div class="text-right">
-                        <input type="submit" value="Submit" name="btnIPS" class="btn bg-success">
-                    </div>
-                    <br>
-                </td>
-            </tr>
         </table>
-        <form>
-
+        <div class="bottom split text-right">
+            <input type="submit" value="Submit" name="btnIPA" class="btn bg-success">
+        </div>
+    <form>
 </div>
 
 @endsection

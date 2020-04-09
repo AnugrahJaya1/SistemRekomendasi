@@ -33,6 +33,15 @@
         .container:hover .image {
             opacity: 0.5;
         }
+
+        .split {
+            bottom:0;
+            width: 87.5%;
+        }
+
+        .text-head{
+            width: 75%;
+        }
     </style>
 </head>
 
@@ -42,8 +51,6 @@
         <table style="width:100%">
             <tr>
                 <td>
-                    <!-- <a onclick="window.location='/'" > -->
-
                     <a href="/">
                         <div class="container">
                             <img src="https://upload.wikimedia.org/wikimedia/id/5/54/Logo_UNPAR.png" width="100" height="100" class="rounded mx-auto d-block image" alt="">
@@ -51,8 +58,8 @@
                     </a>
                 </td>
                 <td>
-                    <h2 class="text-center">Sistem Rekomendasi Program Studi</h2>
-                    <h2 class="text-center">Universitas Katolik Parahyangan </h2>
+                    <h2 class="text-head">Sistem Rekomendasi Program Studi</h2>
+                    <h2 class="text-head">Universitas Katolik Parahyangan </h2>
                 </td>
             </tr>
         </table>

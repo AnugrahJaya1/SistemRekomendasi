@@ -100,21 +100,11 @@
                     <input type="number" name="kma112" min="0" max="100" step="any" required><br>
                 </td>
             </tr>
-            <tr>
-                <td colspan="4">
-                    <br>
-                    <!-- <div class="text-right">
-                        <input type="submit" value="Submit" name="btnIPA" class="btn bg-success">
-                    </div> -->
-                    <br>
-                </td>
-            </tr>
-
         </table>
-        <!-- <div class="text-right">
+        <div class="bottom split text-right">
             <input type="submit" value="Submit" name="btnIPA" class="btn bg-success">
-        </div> -->
-        <form>
+        </div>
+    <form>
 </div>
 
 @endsection
