@@ -4,7 +4,11 @@
 
 @section('container')
 
+
+
 <div id="accordion" class="bg-light">
+    <br>
+    <h1 align="center">Silakan memilih jurusan Anda saat ini</h1>
     <br>
     <table align="center">
         <tr>

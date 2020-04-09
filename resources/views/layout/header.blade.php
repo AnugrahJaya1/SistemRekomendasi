@@ -22,6 +22,17 @@
         input {
             text-align: center;
         }
+
+        .image {
+            opacity: 1;
+            display: block;
+            transition: .5s ease;
+            backface-visibility: hidden;
+        }
+
+        .container:hover .image {
+            opacity: 0.5;
+        }
     </style>
 </head>
 
@@ -31,8 +42,12 @@
         <table style="width:100%">
             <tr>
                 <td>
-                    <a onclick="window.location='/'" >
-                        <img src="https://upload.wikimedia.org/wikimedia/id/5/54/Logo_UNPAR.png" width="100" height="100" class="rounded mx-auto d-block" alt="">
+                    <!-- <a onclick="window.location='/'" > -->
+
+                    <a href="/">
+                        <div class="container">
+                            <img src="https://upload.wikimedia.org/wikimedia/id/5/54/Logo_UNPAR.png" width="100" height="100" class="rounded mx-auto d-block image" alt="">
+                        </div>
                     </a>
                 </td>
                 <td>

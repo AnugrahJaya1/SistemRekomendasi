@@ -6,6 +6,10 @@
 <!-- bg-light untuk container -->
 <br>
 <br>
+
+<h1 align="center">Berikut merupakan hasil perhitungan prediksi IPK</h1>
+<br>
+
 <div style="width: 75%; margin: auto;" class="container">
     <table align="center" class="table table-striped table-bordered">
         <tr>

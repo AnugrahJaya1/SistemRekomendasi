@@ -7,6 +7,9 @@
 <br>
 <br>
 
+<h1 align="center">Silakan mengisi nilai sesuai dengan nilai rapor</h1>
+<br>
+
 <div class="card bg-light border-0">
     <form action='/result' method="post">
         @csrf
