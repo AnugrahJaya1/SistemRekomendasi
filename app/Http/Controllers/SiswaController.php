@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Http\Controllers\PearsonCorrelationController;
+use App\Http\Controllers\UserBasedModelController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\KMeansController;
 

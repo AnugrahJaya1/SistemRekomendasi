@@ -59,10 +59,12 @@ class PengujianController extends Controller
             return $this->pengujianBasic();
         } else {
             // k, looping dataset sebannyak n
-            return $this->pengujianKmeans(5, 2);
+            return $this->pengujianKmeans(10, 30);
         }
     }
 
+    // bts untuk jumlah k di kmeans
+    // n jumlah pengulangan kmeans
     private function pengujianKmeans($bts, $n)
     {
         $result = array();
