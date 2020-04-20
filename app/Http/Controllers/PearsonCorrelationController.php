@@ -7,11 +7,30 @@ use Illuminate\Http\Request;
 class PearsonCorrelationController extends Controller
 {
     
-    private $sdSiswa;
-
-    function __construct()
+    // menghitung kemiripan dengan perason
+    // $mahasiswa -> seluruh mahasiswa sesuai dengan jurusan SMA
+    // $siswa -> 
+    public function calculatePearson($mahasiswa, $siswa)
     {
-        $this->sdSiswa = array();
+        $res = array();
+        foreach ($mahasiswa as $mhs) {
+            $covariance = $this->calculateCovariance($mhs, $siswa);
+            $sd = $this->calculateStandarDeviation($mhs, $siswa);
+            $sdMhs = $sd[0]; // standar deviasi untuk mahasiswa
+            $sdSiswa = $sd[1]; // standar deviasi untuk siswa
+
+            $idProdi = $mhs['id_program_studi'];
+            $IPK = $mhs['IPK'];
+
+            $sim = $covariance / ($sdMhs * $sdSiswa);
+            // atur threshold
+            if ($sim > 0) {
+                // inisialisai array agar tidak null
+                $res[$mhs['id_mahasiswa']] = array();
+                array_push($res[$mhs['id_mahasiswa']], $sim, $idProdi, $IPK);
+            }
+        }
+        return $res;
     }
 
     // untuk menghitung kovariansi satu mahasiswa
@@ -70,32 +89,6 @@ class PearsonCorrelationController extends Controller
         }
         array_push($res, sqrt($sdMhs), sqrt($sdSiswa));
 
-        return $res;
-    }
-
-    // menghitung kemiripan dengan perason
-    // $mahasiswa -> seluruh mahasiswa sesuai dengan jurusan SMA
-    // $siswa -> 
-    public function calculatePearson($mahasiswa, $siswa)
-    {
-        $res = array();
-        foreach ($mahasiswa as $mhs) {
-            $covariance = $this->calculateCovariance($mhs, $siswa);
-            $sd = $this->calculateStandarDeviation($mhs, $siswa);
-            $sdMhs = $sd[0]; // standar deviasi untuk mahasiswa
-            $sdSiswa = $sd[1]; // standar deviasi untuk siswa
-
-            $id_prodi = $mhs['id_program_studi'];
-            $IPK = $mhs['IPK'];
-
-            $sim = $covariance / ($sdMhs * $sdSiswa);
-            // atur threshold
-            if ($sim > 0) {
-                // inisialisai array agar tidak null
-                $res[$mhs['id_mahasiswa']] = array();
-                array_push($res[$mhs['id_mahasiswa']], $sim, $id_prodi, $IPK);
-            }
-        }
         return $res;
     }
 }
