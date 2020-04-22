@@ -15,7 +15,6 @@ class PengujianController extends Controller
 {
 
     protected $train, $test;
-    protected $pc;
     private $userBasedModel;
     protected $error1, $error2;
     protected $accuracy;
@@ -47,8 +46,6 @@ class PengujianController extends Controller
 
         $this->accuracy = new AccuracyController();
 
-        // $this->pc = new PearsonCorrelationPengujianController();
-
         $this->userBasedModel = new UserBasedModelController(null, null, 1);
     }
 
@@ -58,7 +55,7 @@ class PengujianController extends Controller
             return $this->pengujianBasic();
         } else {
             // k, looping dataset sebannyak n
-            return $this->pengujianKmeans(10, 30);
+            return $this->pengujianKmeans(10, 1);
         }
     }
 

@@ -44,6 +44,4 @@ Route::get('/login', function () {
     return view('login');
 });
 
-// Route::get('/result', 'ProgramStudiController@index');
-
-Route::get('/test','TestController@index');
+// Route::get('/test','TestController@index');

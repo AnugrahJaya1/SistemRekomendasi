@@ -26,16 +26,13 @@ class KMeansController extends Controller
         $this->pilihCentroid();
 
         $this->hitungJarakMhs();
-        // $this->printHitungJarak($jarak);
-        // $this->printCluster();
 
         $status = true;
         $idx = 0;
         while ($status) {
             $this->hitungCentroidBaru();
             $idx++;
-            // print($idx);
-            // echo "<br>";
+            
             $status = $this->cekBatas();
             $this->hitungJarakMhs();
         }
