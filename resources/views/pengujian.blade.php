@@ -125,18 +125,33 @@
                 echo "<th> Time (Mic Sec) </th>";
                 echo "</tr>";
 
-                // print_r($maeArr);
-                $k = 2;
-                foreach ($maeArr as $idx => $value) {
+                
+                foreach($result as $key =>$value){
                     echo "<tr>";
-                    echo "<td>" . $k . "</td>";
-                    echo "<td>" . $maeArr[$idx] . "</td>";
-                    echo "<td>" . $rmseArr[$idx] . "</td>";
-                    echo "<td>" . $timesArr[$idx] . "</td>";
+                    echo "<td>" . $key . "</td>";
+
+                    if($value[0] == $minMae){
+                        echo "<td bgcolor='#00FF00'>" . $value[0] . "</td>";
+                    }else{
+                        echo "<td>" . $value[0] . "</td>";
+                    }
+
+                    if($value[1] == $minRmse){
+                        echo "<td bgcolor='#00FF00'>" . $value[1] . "</td>";
+                    }else{
+                        echo "<td>" . $value[1] . "</td>";
+                    }
+                    
+                    if($value[2] == $minTime){
+                        echo "<td bgcolor='#00FF00'>" . $value[2] . "</td>";
+                    }else{
+                        echo "<td>" . $value[2] . "</td>";
+                    }
                     echo "</tr>";
-                    $k++;
                 }
-            }
+            } 
+            echo("*");
+            echo("Kolom dengan warna hijau berarti nilai minimum dari kolom");
         }
         ?>
     </table>
