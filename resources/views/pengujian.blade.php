@@ -118,6 +118,8 @@
                 //         $i++;
                 //     }
             } else if ($metode == 'Kmeans') {
+                echo ("*");
+                echo ("Kolom dengan warna hijau berarti nilai minimum dari kolom");
                 echo "<tr>";
                 echo "<th style=width: 5%>K</th>";
                 echo "<th> MAE </th>";
@@ -125,33 +127,31 @@
                 echo "<th> Time (Mic Sec) </th>";
                 echo "</tr>";
 
-                
-                foreach($result as $key =>$value){
+
+                foreach ($result as $key => $value) {
                     echo "<tr>";
                     echo "<td>" . $key . "</td>";
 
-                    if($value[0] == $minMae){
+                    if ($value[0] == $minMae) {
                         echo "<td bgcolor='#00FF00'>" . $value[0] . "</td>";
-                    }else{
+                    } else {
                         echo "<td>" . $value[0] . "</td>";
                     }
 
-                    if($value[1] == $minRmse){
+                    if ($value[1] == $minRmse) {
                         echo "<td bgcolor='#00FF00'>" . $value[1] . "</td>";
-                    }else{
+                    } else {
                         echo "<td>" . $value[1] . "</td>";
                     }
-                    
-                    if($value[2] == $minTime){
+
+                    if ($value[2] == $minTime) {
                         echo "<td bgcolor='#00FF00'>" . $value[2] . "</td>";
-                    }else{
+                    } else {
                         echo "<td>" . $value[2] . "</td>";
                     }
                     echo "</tr>";
                 }
-            } 
-            echo("*");
-            echo("Kolom dengan warna hijau berarti nilai minimum dari kolom");
+            }
         }
         ?>
     </table>

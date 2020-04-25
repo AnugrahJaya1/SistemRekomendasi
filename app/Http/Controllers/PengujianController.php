@@ -55,7 +55,7 @@ class PengujianController extends Controller
             return $this->pengujianBasic();
         } else {
             // k, looping dataset sebannyak n
-            return $this->pengujianKmeans(10, 30);
+            return $this->pengujianKmeans(30, 30);
         }
     }
 
