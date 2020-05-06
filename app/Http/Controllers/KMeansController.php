@@ -93,8 +93,8 @@ class KMeansController extends Controller
                             ||
                             ($valueNilaiMhs['id_mata_pelajaran'] == 3 && $valueNilaiCen['id_mata_pelajaran'] == 3)
                         ) {
-                            // hitung jarak dengan euclidian distance
-                            $jarak = $this->euclidianceDistance($valueNilaiMhs, $valueNilaiCen);
+                            // hitung jarak dengan euclidean distance
+                            $jarak = $this->euclideanceDistance($valueNilaiMhs, $valueNilaiCen);
                         } else if ($valueNilaiMhs['id_mata_pelajaran'] < $valueNilaiCen['id_mata_pelajaran']) {
                             break;
                         }
@@ -153,8 +153,8 @@ class KMeansController extends Controller
                         ||
                         ($valueNilaiSiswa['id_mata_pelajaran'] == 3 && $valueNilaiCen['id_mata_pelajaran'] == 3)
                     ) {
-                        // hitung jarak dengan euclidian distance
-                        $jarak = $this->euclidianceDistance($valueNilaiSiswa, $valueNilaiCen);
+                        // hitung jarak dengan euclidean distance
+                        $jarak = $this->euclideanceDistance($valueNilaiSiswa, $valueNilaiCen);
                     } else if ($valueNilaiSiswa['id_mata_pelajaran'] < $valueNilaiCen['id_mata_pelajaran']) {
                         break;
                     }
@@ -183,7 +183,7 @@ class KMeansController extends Controller
     }
 
     // parameter berisikan array of nilai satu mata pelajaran
-    private function euclidianceDistance($mhs, $centroid)
+    private function euclideanceDistance($mhs, $centroid)
     {
         // asumsi itung yang beririsan aja
         $result  = 0;
