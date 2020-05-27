@@ -19,7 +19,7 @@ class Jurusan_SMA extends Model
         return $this->hasMany('App\Mahasiswa', 'id_jurusan', 'id_jurusan');
     }
 
-    public function jurusanSMA()
+    public function programStudi()
     {
         return $this->hasMany("App\Program_Studi", 'id_jurusan', 'id_jurusan');
     }

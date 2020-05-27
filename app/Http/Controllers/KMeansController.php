@@ -291,10 +291,10 @@ class KMeansController extends Controller
     {
 
         for ($i = 0; $i < 4; $i++) {
-            $this->currCentroid[$keyCen]['nilai'][$keyNilaiCen][$i] = rand(1, 3) + rand(1, 10) / 10;
+            $this->currCentroid[$keyCen]['nilai'][$keyNilaiCen][$i] = rand(1, 3) + rand(1, 9) / 10;
         }
         // update nilai avg
-        $this->currCentroid[$keyCen]['nilai'][$keyNilaiCen]['AVG'] = rand(1, 3) + rand(1, 10) / 10;
+        $this->currCentroid[$keyCen]['nilai'][$keyNilaiCen]['AVG'] = rand(1, 3) + rand(1, 9) / 10;
     }
 
     private function cekBatas()
