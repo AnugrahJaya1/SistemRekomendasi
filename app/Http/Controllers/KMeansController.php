@@ -32,7 +32,7 @@ class KMeansController extends Controller
         while ($status) {
             $this->hitungCentroidBaru();
             $idx++;
-            
+
             $status = $this->cekBatas();
             $this->hitungJarakMhs();
         }
@@ -78,11 +78,11 @@ class KMeansController extends Controller
             // looping sebanyak nilai mahasiswa
             foreach ($nilaiMhs as $keyNilaiMhs => $valueNilaiMhs) {
                 // array untuk menampung jarak
-                $arrJarak = array();
+                $arrNotasiSigma = array();
                 // looping sebanyak centroid
                 foreach ($this->currCentroid as $keyCen => $valuCen) {
                     // penampung jarak
-                    $jarak = 0;
+                    $notasiSigma = 0;
                     // array yang berisikan nilai pada centroid
                     $nilaiCen = $valuCen['nilai'];
                     // looping sebanyak nilai centroid
@@ -90,11 +90,10 @@ class KMeansController extends Controller
                         // cek apakah pada mata pelajaran yang sama atau tidak
                         if (
                             ($valueNilaiMhs['id_mata_pelajaran'] == 1 && $valueNilaiCen['id_mata_pelajaran'] == 1)
-                            ||
-                            ($valueNilaiMhs['id_mata_pelajaran'] == 3 && $valueNilaiCen['id_mata_pelajaran'] == 3)
+                            || ($valueNilaiMhs['id_mata_pelajaran'] == 3 && $valueNilaiCen['id_mata_pelajaran'] == 3)
                         ) {
-                            // hitung jarak dengan euclidean distance
-                            $jarak = $this->euclideanceDistance($valueNilaiMhs, $valueNilaiCen);
+                            // hitung notasi sigma
+                            $notasiSigma = $this->notasiSigma($valueNilaiMhs, $valueNilaiCen);
                         } else if ($valueNilaiMhs['id_mata_pelajaran'] < $valueNilaiCen['id_mata_pelajaran']) {
                             break;
                         }
@@ -102,18 +101,15 @@ class KMeansController extends Controller
                     // memasukkan jarak antara mhs(nilai) dengan centroid(nilai)
                     // index 0 nilai dengan mata pelajaran mtk (1)
                     // index 1 nilai dengan mata pelajaran ing (3)
-                    array_push($arrJarak, $jarak);
+                    array_push($arrNotasiSigma, $notasiSigma);
                 }
                 // cek apakah tempCluster kosong
-                if (empty($tempCluster)) {
-                    array_push($tempCluster, $arrJarak);
-                } else {
+                if (empty($tempCluster) && $valueNilaiMhs['id_mata_pelajaran'] == 1) {
+                    array_push($tempCluster, $arrNotasiSigma);
+                } else if ($valueNilaiMhs['id_mata_pelajaran'] == 3) {
                     // menghitung jarak sebenarnya
                     // dari dua nilai
-                    for ($i = 0; $i < $this->k; $i++) {
-                        $tempCluster[0][$i] += $arrJarak[$i];
-                        $tempCluster[0][$i] = sqrt($tempCluster[0][$i]);
-                    }
+                    $tempCluster = $this->euclideanDistance($tempCluster, $arrNotasiSigma);
                 }
             }
             // menentukan mhs masuk pada cluster mana
@@ -138,11 +134,11 @@ class KMeansController extends Controller
         $tempCluster = array();
         // looping untuk nilai siswa
         foreach ($nilaiSiswa as $keyNilaiSiswa => $valueNilaiSiswa) {
-            $arrJarak = array();
+            $arrNotasiSigma = array();
             // looping sebanyak centroid
             foreach ($this->currCentroid as $keyCen => $valuCen) {
                 // penampung jarak
-                $jarak = 0;
+                $notasiSigma = 0;
                 // array yang berisikan nilai pada centroid
                 $nilaiCen = $valuCen['nilai'];
                 // looping sebanyak nilai centroid
@@ -150,11 +146,10 @@ class KMeansController extends Controller
                     // cek apakah pada mata pelajaran yang sama atau tidak
                     if (
                         ($valueNilaiSiswa['id_mata_pelajaran'] == 1 && $valueNilaiCen['id_mata_pelajaran'] == 1)
-                        ||
-                        ($valueNilaiSiswa['id_mata_pelajaran'] == 3 && $valueNilaiCen['id_mata_pelajaran'] == 3)
+                        || ($valueNilaiSiswa['id_mata_pelajaran'] == 3 && $valueNilaiCen['id_mata_pelajaran'] == 3)
                     ) {
-                        // hitung jarak dengan euclidean distance
-                        $jarak = $this->euclideanceDistance($valueNilaiSiswa, $valueNilaiCen);
+                        // hitung notasi sigma
+                        $notasiSigma = $this->notasiSigma($valueNilaiSiswa, $valueNilaiCen);
                     } else if ($valueNilaiSiswa['id_mata_pelajaran'] < $valueNilaiCen['id_mata_pelajaran']) {
                         break;
                     }
@@ -162,18 +157,15 @@ class KMeansController extends Controller
                 // memasukkan jarak antara mhs(nilai) dengan centroid(nilai)
                 // index 0 nilai dengan mata pelajaran mtk (1)
                 // index 1 nilai dengan mata pelajaran ing (3)
-                array_push($arrJarak, $jarak);
+                array_push($arrNotasiSigma, $notasiSigma);
             }
             // cek apakah tempCluster kosong
-            if (empty($tempCluster)) {
-                array_push($tempCluster, $arrJarak);
-            } else {
+            if (empty($tempCluster) && $valueNilaiSiswa['id_mata_pelajaran'] == 1) {
+                array_push($tempCluster, $arrNotasiSigma);
+            } else if ($valueNilaiSiswa['id_mata_pelajaran'] == 3) {
                 // menghitung jarak sebenarnya
                 // dari dua nilai
-                for ($i = 0; $i < $this->k; $i++) {
-                    $tempCluster[0][$i] += $arrJarak[$i];
-                    $tempCluster[0][$i] = sqrt($tempCluster[0][$i]);
-                }
+                $tempCluster = $this->euclideanDistance($tempCluster, $arrNotasiSigma);
             }
         }
         // menentukan mhs masuk pada cluster mana
@@ -183,7 +175,7 @@ class KMeansController extends Controller
     }
 
     // parameter berisikan array of nilai satu mata pelajaran
-    private function euclideanceDistance($mhs, $centroid)
+    private function notasiSigma($mhs, $centroid)
     {
         // asumsi itung yang beririsan aja
         $result  = 0;
@@ -192,6 +184,16 @@ class KMeansController extends Controller
         }
         $result += pow($mhs['AVG'] - $centroid['AVG'], 2);
         return $result;
+    }
+
+    private function euclideanDistance($tempCluster, $arrNotasiSigma)
+    {
+        for ($i = 0; $i < $this->k; $i++) {
+            $tempCluster[0][$i] += $arrNotasiSigma[$i];
+            $tempCluster[0][$i] = sqrt($tempCluster[0][$i]);
+        }
+
+        return $tempCluster;
     }
 
     private function hitungCentroidBaru()
@@ -217,8 +219,8 @@ class KMeansController extends Controller
                         foreach ($nilaiAnggota as $keyNilaiAnggota => $valueNilaiAnggota) {
                             if (
                                 ($valueNilaiCen['id_mata_pelajaran'] == 1 && $valueNilaiAnggota['id_mata_pelajaran'] == 1
-                                ||
-                                $valueNilaiCen['id_mata_pelajaran'] == 3 && $valueNilaiAnggota['id_mata_pelajaran'] == 3)
+                                    ||
+                                    $valueNilaiCen['id_mata_pelajaran'] == 3 && $valueNilaiAnggota['id_mata_pelajaran'] == 3)
                             ) {
                                 // update nilai 101, 102, 111, 112
                                 for ($i = 0; $i < 4; $i++) {

@@ -53,7 +53,7 @@
                 <td>
                     <a href="/">
                         <div class="container">
-                            <img src="https://upload.wikimedia.org/wikimedia/id/5/54/Logo_UNPAR.png" width="100" height="100" class="rounded mx-auto d-block image" alt="">
+                            <img src="http://localhost:8000/img/Logo_UNPAR.png" width="100" height="100" class="rounded mx-auto d-block image" alt="">
                         </div>
                     </a>
                 </td>
