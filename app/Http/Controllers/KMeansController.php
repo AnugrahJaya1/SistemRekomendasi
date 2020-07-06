@@ -303,7 +303,7 @@ class KMeansController extends Controller
     {
         $batas = abs($this->J0 - $this->J1);
 
-        if ($batas < 0.1) {
+        if ($batas <= 0.1) {
             return false;
         }
 

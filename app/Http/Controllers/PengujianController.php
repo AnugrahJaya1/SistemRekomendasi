@@ -55,20 +55,20 @@ class PengujianController extends Controller
             return $this->pengujianBasic();
         } else {
             // k, looping dataset sebannyak n
-            return $this->pengujianKmeans(30, 30);
+            return $this->pengujianKmeans(31,40, 30);
         }
     }
 
     // bts untuk jumlah k di kmeans
     // n jumlah pengulangan kmeans
-    private function pengujianKmeans($bts, $n)
+    private function pengujianKmeans($awal, $bts, $n)
     {
         $result = array();
 
         $resultPred = array();
 
         // looping dari 2-10 (untuk nilai k)
-        for ($k = 2; $k <= $bts; $k++) {
+        for ($k = $awal; $k <= $bts; $k++) {
             $start = microtime(true);
 
             $tempMae = 0;

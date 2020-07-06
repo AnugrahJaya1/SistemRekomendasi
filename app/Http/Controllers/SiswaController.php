@@ -67,11 +67,11 @@ class SiswaController extends Controller
                     // temporary array
                     $temp = [];
                     // masukan data (nilai) ke temp
-                    array_push($temp, ((int) $value / 20) - 1);
+                    array_push($temp, ((int) $value / 100) * 4);
                     $i++;
                 } else {
                     // masukan data nilai ke temp
-                    array_push($temp, ((int) $value / 20) - 1);
+                    array_push($temp, ((int) $value / 100) * 4);
                     $i++;
 
                     if ($i == 5) {
