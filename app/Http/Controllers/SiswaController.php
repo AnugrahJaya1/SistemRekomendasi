@@ -32,7 +32,12 @@ class SiswaController extends Controller
         // data mahasiswa
         $mhs = $mahasiswa->index($siswa["btn"])->toArray();
         // inisialisasi kmeans
-        $kmeans = new KMeansController(40, $mhs);
+        
+        $k = 40; // k untuk program studi ipa
+        if($siswa["btn"] == "IPS"){
+            $k = 30;
+        }
+        $kmeans = new KMeansController($k, $mhs);
 
         // hitung jarak siswa dengan centroid 
         // mengembalikan siswa masuk dalam cluster mana
